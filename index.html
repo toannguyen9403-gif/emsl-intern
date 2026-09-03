@@ -85,7 +85,7 @@ img{max-width:100%;display:block}
 .skip:focus{left:1rem;top:1rem}
 
 /* ---------- Section rhythm ---------- */
-.sec{padding:clamp(3.5rem,7vw,6.5rem) 0}
+.sec{padding:calc(clamp(3.5rem,7vw,6.5rem) * var(--sec-scale,1)) 0}
 .sec--mist{background:var(--mist)}
 .sec--dark{background:var(--navy-800);color:#E7EEF7}
 .sec--dark h2,.sec--dark h3{color:#fff}
@@ -221,7 +221,7 @@ html[data-lang="vi"] .menu a.btn--apply,html[data-lang="ko"] .menu a.btn--apply{
 .hero__facts b{color:#fff;font-weight:600}
 .hero__facts .sep{color:rgba(255,255,255,.3)}
 .hero__figure{position:relative}
-.hero__figure .frame{aspect-ratio:4/5}
+.hero__figure .frame{aspect-ratio:var(--hero-ratio,4/5)}
 .spectrum-strip{height:5px;background:var(--spectrum);border-radius:0 0 2px 2px}
 .hero__caption{font-size:var(--t-xs);color:#8FA9C8;margin-top:.6rem}
 .hero__scroll{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);color:#7B96B8;font-size:var(--t-xs)}
@@ -235,7 +235,7 @@ html[data-lang="vi"] .menu a.btn--apply,html[data-lang="ko"] .menu a.btn--apply{
 .upcoming{background:var(--navy-800);color:#E7EEF7;position:relative}
 .upcoming__grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(2rem,4vw,3.25rem);align-items:stretch}
 .upcoming__aside{display:flex;flex-direction:column}
-.upcoming__aside .frame{flex:1;aspect-ratio:auto;min-height:340px}
+.upcoming__aside .frame{flex:1;aspect-ratio:auto;min-height:var(--banner-min,340px)}
 .upcoming h2{color:#fff}
 .deadline{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-end;background:rgba(242,179,61,.1);
   border:1px solid rgba(242,179,61,.35);border-radius:var(--r-md);padding:1.25rem 1.4rem;margin:1.5rem 0}
@@ -296,7 +296,11 @@ html[data-lang="vi"] .menu a.btn--apply,html[data-lang="ko"] .menu a.btn--apply{
   overflow:hidden;display:flex;flex-direction:column}
 .tile__body{padding:1.1rem 1.25rem 1.35rem;display:flex;flex-direction:column;gap:.55rem}
 .tile__icon{width:32px;height:32px;color:var(--data)}
-@media (min-width:1100px){#research-grid{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:1100px){
+  #research-grid{grid-template-columns:repeat(var(--topic-cols,3),1fr)}
+  #people-grid{grid-template-columns:repeat(var(--people-cols,4),1fr)}
+  #values{grid-template-columns:repeat(var(--value-cols,4),1fr)}
+}
 .frame--contain{background:#fff;border-style:solid;border-color:var(--line)}
 .frame--contain img{object-fit:contain;padding:1rem;background:#fff}
 .tile h3{font-size:var(--t-base)}
@@ -465,6 +469,10 @@ body.ed-on{padding-right:0}
 .ed__top button{margin-left:auto;background:none;border:1px solid rgba(255,255,255,.3);color:#fff;
   border-radius:var(--r-sm);padding:.35rem .7rem;cursor:pointer;font:600 var(--t-xs)/1 var(--body)}
 .ed__body{flex:1;overflow-y:auto;padding:.5rem 1rem 1.5rem}
+.ed__tools{padding:.7rem 1rem;border-bottom:1px solid var(--line);background:#FFFBEF}
+.ed__switch{display:flex;align-items:center;gap:.55rem;font-size:var(--t-sm);color:var(--ink);font-weight:600;cursor:pointer}
+.ed__switch input{width:auto}
+.ed__switch small{display:block;font-weight:400;color:var(--muted);font-size:var(--t-xs);margin-top:.15rem}
 .ed__note{background:var(--data-soft);border:1px solid #B6E4EA;border-radius:var(--r-sm);padding:.7rem .8rem;
   margin:.9rem 0;color:#0C5A66;font-size:var(--t-xs);line-height:1.5}
 .ed details{border-bottom:1px solid var(--line)}
@@ -1118,6 +1126,10 @@ const CONFIG = {
     labMain:"", labEquip:"", labTeam:"", campus:"", map:"", qr:""
   },
 
+  /* Bố cục: đổi số cột, tỷ lệ khung ảnh, độ rộng trang, khoảng cách section.   */
+  layout: { maxWidth:1200, topicCols:3, peopleCols:4, valueCols:4,
+            heroRatio:"4 / 5", bannerMin:340, secScale:1 },
+
   /* Nội dung của kỳ sắp tới, hiển thị ở bảng thông tin.                       */
   upcoming: {
     program:"Summer 2027 Research Internship",
@@ -1656,8 +1668,8 @@ function renderValues(){
   }).join("");
 }
 function renderTopics(){
-  $("#research-grid").innerHTML = TOPICS.map(x=>
-    '<article class="tile"><div class="tile__body">'+svgSm(x.icon)+'<h3>'+p(x.t)+'</h3>'+
+  $("#research-grid").innerHTML = TOPICS.map((x,i)=>
+    '<article class="tile" data-edit-ref="topics.'+i+'"><div class="tile__body">'+svgSm(x.icon)+'<h3>'+p(x.t)+'</h3>'+
     '<ul class="checklist" style="gap:.4rem">'+p(x.b).map(li=>
       '<li>'+tick+'<span style="font-size:var(--t-sm)">'+li+'</span></li>').join("")+
     '</ul></div></article>').join("");
@@ -1718,8 +1730,8 @@ function renderArchive(){
           '</tbody></table></dl>'+
           '<blockquote class="quote">'+pr.quote+'<footer>'+pr.quoteBy+'</footer></blockquote></div>'+
         '<div><h4 style="margin-bottom:.75rem">'+t("lGallery")+'</h4><div class="gal">'+
-          ARCHIVE_FRAMES.map(g=> g.video ? videoFrame(pr.video||"", g.label, g.cls)
-                                        : frame({ratio:g.ratio,cls:g.cls,label:g.label})).join("")+
+          ARCHIVE_FRAMES.map((g,gi)=> g.video ? videoFrame(pr.video||"", g.label, g.cls)
+                : frame({ratio:g.ratio, cls:g.cls, label:g.label, slot:pr.id+"-g"+gi})).join("")+
         '</div></div>'+
       '</div>'+
     '</article>'
@@ -1749,14 +1761,14 @@ function renderPeople(){
 }
 function renderFaq(){
   $("#faq-list").innerHTML = FAQ.map((q,i)=>
-    '<div class="acc__item"><h3 style="margin:0"><button class="acc__btn" aria-expanded="false" aria-controls="faq-'+i+'">'+
+    '<div class="acc__item" data-edit-ref="faq.'+i+'"><h3 style="margin:0"><button class="acc__btn" aria-expanded="false" aria-controls="faq-'+i+'">'+
       '<span>'+p(q)+'</span><span class="acc__ico" aria-hidden="true">'+
       '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 1v10M1 6h10"/></svg>'+
       '</span></button></h3>'+
       '<div class="acc__panel" id="faq-'+i+'" hidden><p>'+((q.a && p(q.a)) || t("faqAnswer"))+'</p></div></div>').join("");
 }
 function renderGalleries(){
-  $("#seoul-grid").innerHTML = SEOUL.map(g=>frame(g)).join("");
+  $("#seoul-grid").innerHTML = SEOUL.map((g,i)=>frame(Object.assign({}, g, {slot:"seoul"+i}))).join("");
   hydrateFrames($("#seoul-grid"));
 }
 
@@ -1774,6 +1786,7 @@ function applyConfig(){
   hydrateFrames();
   applyEmbeds();
   applyBindings();
+  applyLayout();
 }
 /* Đọc một đường dẫn dạng "upcoming.dates" trong CONFIG */
 const dig = (o,path)=> path.split(".").reduce((a,k)=> (a==null?a:a[k]), o);
@@ -1781,6 +1794,16 @@ function setDeep(o,path,v){
   const ks = path.split("."), last = ks.pop();
   let t = o; ks.forEach(k=>{ if(typeof t[k] !== "object" || t[k] === null) t[k] = {}; t = t[k]; });
   t[last] = v;
+}
+function applyLayout(){
+  const L = CONFIG.layout || {}, r = document.documentElement.style;
+  if(L.maxWidth)   r.setProperty("--wrap", L.maxWidth + "px");
+  if(L.topicCols)  r.setProperty("--topic-cols", L.topicCols);
+  if(L.peopleCols) r.setProperty("--people-cols", L.peopleCols);
+  if(L.valueCols)  r.setProperty("--value-cols", L.valueCols);
+  if(L.heroRatio)  r.setProperty("--hero-ratio", L.heroRatio);
+  if(L.bannerMin)  r.setProperty("--banner-min", L.bannerMin + "px");
+  if(L.secScale)   r.setProperty("--sec-scale", L.secScale);
 }
 function applyBindings(){
   $$("[data-bind]").forEach(el=>{
@@ -1801,6 +1824,9 @@ async function loadContent(){
     if(Array.isArray(d.programs))     PROGRAMS.splice(0, PROGRAMS.length, ...d.programs);
     if(Array.isArray(d.people))       PEOPLE.splice(0, PEOPLE.length, ...d.people);
     if(Array.isArray(d.testimonials)) TESTIMONIALS.splice(0, TESTIMONIALS.length, ...d.testimonials);
+    if(Array.isArray(d.topics)) TOPICS.splice(0, TOPICS.length, ...d.topics);
+    if(Array.isArray(d.faq))    FAQ.splice(0, FAQ.length, ...d.faq);
+    if(Array.isArray(d.seoul))  SEOUL.splice(0, SEOUL.length, ...d.seoul);
     if(d.faqAnswers) Object.entries(d.faqAnswers).forEach(([i,a])=>{ if(FAQ[i]) FAQ[i].a = a; });
     if(d.text) ["en","vi","ko"].forEach(l=> Object.assign(I18N[l], d.text[l]||{}));
   }catch(e){ /* không có file, dùng nội dung mặc định */ }
@@ -1977,9 +2003,10 @@ function observeReveal(){
    ============================================================================ */
 const ED = { previews:{}, files:{}, live:false, active:false, opened:new Set() };
 const TEXT = { en:{}, vi:{}, ko:{} };
-const ARRS = { programs:PROGRAMS, people:PEOPLE, testimonials:TESTIMONIALS };
+const ARRS = { programs:PROGRAMS, people:PEOPLE, testimonials:TESTIMONIALS,
+               topics:TOPICS, faq:FAQ, seoul:SEOUL };
 const CFG_KEYS = ["cohortLabel","cohortBadge","cohortHeading","deadlineText","applicationDeadline",
-                  "links","images","stats","upcoming","eligibility","dates","contact","videos","mapEmbed"];
+                  "links","images","stats","upcoming","eligibility","dates","contact","videos","mapEmbed","layout"];
 
 function safeName(n){
   return n.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
@@ -2087,9 +2114,51 @@ function panelHTML(){
       '<div class="row"><button class="mini" data-dup="testimonials.'+i+'">Nhân bản</button>'+
       '<button class="mini mini--danger" data-del="testimonials.'+i+'">Xoá</button></div></div>').join("")+
     '<div class="row"><button class="mini" data-add="testimonials">+ Thêm cảm nhận</button></div>')+
-  sec("Câu trả lời FAQ ("+lang.toUpperCase()+")",
-    '<div class="ed__note">Mỗi ngôn ngữ có câu trả lời riêng. Đổi ngôn ngữ ở thanh trên cùng của trang rồi quay lại đây để nhập bản dịch.</div>'+
-    FAQ.map((q,i)=>F(p(q),'data-faq="'+i+'.'+lang+'"',(q.a&&q.a[lang])||"","area")).join(""));
+  sec("Câu hỏi và trả lời FAQ ("+lang.toUpperCase()+")",
+    '<div class="ed__note">Nội dung dưới đây thuộc ngôn ngữ đang xem. Đổi ngôn ngữ ở thanh trên cùng của trang rồi quay lại đây để nhập bản dịch.</div>'+
+    FAQ.map((q,i)=>'<div class="item">'+
+      F("Câu hỏi",'data-arr="faq.'+i+'.'+lang+'"', q[lang]||q.en)+
+      F("Câu trả lời",'data-arr="faq.'+i+'.a.'+lang+'"',(q.a&&q.a[lang])||"","area")+
+      '<div class="row"><button class="mini" data-dup="faq.'+i+'">Nhân bản</button>'+
+      '<button class="mini mini--danger" data-del="faq.'+i+'">Xoá</button></div></div>').join("")+
+    '<div class="row"><button class="mini" data-add="faq">+ Thêm câu hỏi</button></div>')+
+  sec("Chủ đề nghiên cứu ("+lang.toUpperCase()+")",
+    '<div class="ed__note">Mỗi dòng trong ô “Các gạch đầu dòng” là một ý. Xuống dòng để thêm ý mới.</div>'+
+    TOPICS.map((x,i)=>'<div class="item">'+
+      F("Tên chủ đề",'data-arr="topics.'+i+'.t.'+lang+'"', x.t[lang]||x.t.en)+
+      F("Các gạch đầu dòng",'data-arr="topics.'+i+'.b.'+lang+'" data-type="lines"',
+        (x.b[lang]||x.b.en||[]).join("\n"),"area")+
+      '<div class="row"><button class="mini" data-dup="topics.'+i+'">Nhân bản</button>'+
+      '<button class="mini mini--danger" data-del="topics.'+i+'">Xoá</button></div></div>').join("")+
+    '<div class="row"><button class="mini" data-add="topics">+ Thêm chủ đề</button></div>')+
+  sec("Khung ảnh mục Life in Seoul",
+    '<div class="ed__note">Thêm khung xong, kéo ảnh từ máy thả thẳng vào khung đó trên trang.</div>'+
+    SEOUL.map((x,i)=>'<div class="item">'+
+      F("Nhãn khung",'data-arr="seoul.'+i+'.label"', x.label)+
+      '<label>Bề ngang<select data-arr="seoul.'+i+'.cls">'+
+        ["g-third:Hẹp (1/3)","g-half:Vừa (1/2)","g-wide:Rộng cả hàng"].map(o=>{const[v,tx]=o.split(":");
+          return '<option value="'+v+'"'+(x.cls===v?" selected":"")+'>'+tx+'</option>';}).join("")+
+      '</select></label>'+
+      '<label>Tỷ lệ<select data-arr="seoul.'+i+'.ratio">'+
+        ["4x3:4:3","3x2:3:2","16x9:16:9","1x1:Vuông","21x9:21:9"].map(o=>{const[v,tx]=o.split(":");
+          return '<option value="'+v+'"'+(x.ratio===v?" selected":"")+'>'+tx+'</option>';}).join("")+
+      '</select></label>'+
+      '<div class="row"><button class="mini" data-dup="seoul.'+i+'">Nhân bản</button>'+
+      '<button class="mini mini--danger" data-del="seoul.'+i+'">Xoá</button></div></div>').join("")+
+    '<div class="row"><button class="mini" data-add="seoul">+ Thêm khung ảnh</button></div>')+
+  sec("Bố cục và kích thước",
+    '<div class="ed__note">Các ô co giãn theo màn hình nên không kéo tay được; thay vào đó chỉnh bằng các thông số dưới đây, áp dụng đồng bộ cho cả máy tính lẫn điện thoại.</div>'+
+    CFIELD("Độ rộng tối đa của trang (px)","layout.maxWidth","number")+
+    CFIELD("Số cột — Chủ đề nghiên cứu","layout.topicCols","number")+
+    CFIELD("Số cột — Nhân sự","layout.peopleCols","number")+
+    CFIELD("Số cột — Thẻ tổng quan","layout.valueCols","number")+
+    '<label>Tỷ lệ ảnh hero<select data-cfg="layout.heroRatio">'+
+      ["4 / 5:Dọc 4:5","1 / 1:Vuông","3 / 4:Dọc 3:4","16 / 10:Ngang 16:10","16 / 9:Ngang 16:9"]
+      .map(o=>{const i=o.indexOf(":");const v=o.slice(0,i),tx=o.slice(i+1);
+        return '<option value="'+v+'"'+(CONFIG.layout.heroRatio===v?" selected":"")+'>'+tx+'</option>';}).join("")+
+    '</select></label>'+
+    CFIELD("Chiều cao tối thiểu ảnh banner (px)","layout.bannerMin","number")+
+    CFIELD("Khoảng cách giữa các mục (1 = mặc định)","layout.secScale","number"));
 }
 
 function initEditor(){
@@ -2098,10 +2167,10 @@ function initEditor(){
   box.className = "ed is-open"; box.id = "ed";
   box.innerHTML =
     '<div class="ed__top"><b>Chỉnh sửa nội dung</b><button id="edHide">Ẩn bảng</button></div>'+
+    '<div class="ed__tools"><label class="ed__switch"><input type="checkbox" id="edLive" checked>'+
+      '<span>Sửa chữ trực tiếp trên trang<small>Bấm vào bất kỳ dòng chữ nào để gõ đè lên</small></span></label></div>'+
     '<div class="ed__body" id="edBody"></div>'+
     '<div class="ed__foot">'+
-      '<label style="display:flex;flex-direction:row;align-items:center;gap:.5rem;color:var(--ink);font-size:var(--t-sm)">'+
-        '<input type="checkbox" id="edLive" style="width:auto"> Sửa chữ trực tiếp trên trang</label>'+
       '<button class="btn btn--primary" id="edSave" style="justify-content:center">Tải file content.json</button>'+
       '<div class="row"><button class="mini" id="edImgs">Tải ảnh đã đổi tên</button>'+
       '<button class="mini" id="edReset">Xoá bản nháp</button>'+
@@ -2140,9 +2209,15 @@ function initEditor(){
   $("#edReset").onclick = ()=>{ localStorage.removeItem("emslab-draft"); location.reload(); };
   $("#edExit").onclick = ()=>{ location.href = location.pathname; };
   enableDrops();
-  status("Sẵn sàng. Sửa xong nhớ bấm “Tải file content.json”.");
+  setLive(true);
+  status("Sẵn sàng. Bấm ✎ trên mỗi khối, hoặc gõ trực tiếp lên chữ trong trang.");
 }
-const SEC_OF = { programs:"Các kỳ thực tập", people:"Nhân sự", testimonials:"Cảm nhận sinh viên" };
+function secTitle(n){
+  const L = lang.toUpperCase();
+  return { programs:"Các kỳ thực tập", people:"Nhân sự", testimonials:"Cảm nhận sinh viên",
+           topics:"Chủ đề nghiên cứu ("+L+")", faq:"Câu hỏi và trả lời FAQ ("+L+")",
+           seoul:"Khung ảnh mục Life in Seoul" }[n];
+}
 /* Gắn nút ✎ lên từng khối trên trang để bấm là nhảy thẳng tới ô nhập tương ứng */
 function markEditable(){
   $$("[data-edit-ref]").forEach(el=>{
@@ -2157,7 +2232,7 @@ function markEditable(){
 }
 function jumpTo(ref){
   const [n,i] = ref.split(".");
-  ED.opened.add(SEC_OF[n]); drawPanel();
+  ED.opened.add(secTitle(n)); drawPanel();
   const box = $("#ed"), fab = $("#edFab");
   if(box) box.classList.add("is-open"); if(fab) fab.hidden = true;
   const inp = $('#edBody [data-arr^="'+n+'.'+i+'."]');
@@ -2191,8 +2266,14 @@ function onField(e){
   if(el.dataset.cfg){ setDeep(CONFIG, el.dataset.cfg, el.value); }
   else if(el.dataset.stat){ CONFIG.stats[+el.dataset.stat].n = el.value; }
   else if(el.dataset.arr){
-    const [n,i,k] = el.dataset.arr.split(".");
-    ARRS[n][+i][k] = (k === "archived") ? !!el.value : el.value;
+    const parts = el.dataset.arr.split(".");
+    const n = parts.shift(), i = +parts.shift(), obj = ARRS[n][i];
+    if(!obj) return;
+    const last = parts[parts.length-1];
+    const val = el.dataset.type === "lines"
+        ? el.value.split("\n").map(x=>x.trim()).filter(Boolean)
+        : (last === "archived" ? !!el.value : el.value);
+    setDeep(obj, parts.join("."), val);
   }
   else if(el.dataset.faq){
     const [i,l] = el.dataset.faq.split(".");
@@ -2216,6 +2297,12 @@ function addItem(name){
   if(name === "people") PEOPLE.push({ name:"[Họ tên]", roleKey:"roleMentor", field:"[Research Field]", mail:"[Email]", photo:"" });
   if(name === "testimonials") TESTIMONIALS.push({ name:"[Student Name]", from:"[University and Country]",
     cohort:"[Summer 20XX Participant]", text:"[Insert Student Testimonial]", photo:"" });
+  if(name === "topics") TOPICS.push({ icon:"atom",
+    t:{ en:"[New topic]", vi:"[Chủ đề mới]", ko:"[새 주제]" },
+    b:{ en:["[Item]"], vi:["[Nội dung]"], ko:["[항목]"] } });
+  if(name === "faq") FAQ.push({ en:"[New question]", vi:"[Câu hỏi mới]", ko:"[새 질문]",
+    a:{ en:"", vi:"", ko:"" } });
+  if(name === "seoul") SEOUL.push({ cls:"g-third", ratio:"4x3", label:"[Insert Photo]", hint:"" });
   drawPanel(); saveDraft(); queueRender();
 }
 let rt;
@@ -2261,7 +2348,7 @@ function enableDrops(){
 function collect(){
   const cfg = {}; CFG_KEYS.forEach(k=> cfg[k] = CONFIG[k]);
   return { config:cfg, programs:PROGRAMS, people:PEOPLE, testimonials:TESTIMONIALS,
-           faqAnswers:Object.fromEntries(FAQ.map((q,i)=>[i, q.a || {}])), text:TEXT };
+           topics:TOPICS, faq:FAQ, seoul:SEOUL, text:TEXT };
 }
 function saveDraft(){ try{ localStorage.setItem("emslab-draft", JSON.stringify(collect())); }catch(e){} }
 function restoreDraft(){
@@ -2271,6 +2358,9 @@ function restoreDraft(){
     if(d.programs) PROGRAMS.splice(0, PROGRAMS.length, ...d.programs);
     if(d.people) PEOPLE.splice(0, PEOPLE.length, ...d.people);
     if(d.testimonials) TESTIMONIALS.splice(0, TESTIMONIALS.length, ...d.testimonials);
+    if(d.topics) TOPICS.splice(0, TOPICS.length, ...d.topics);
+    if(d.faq)    FAQ.splice(0, FAQ.length, ...d.faq);
+    if(d.seoul)  SEOUL.splice(0, SEOUL.length, ...d.seoul);
     if(d.faqAnswers) Object.entries(d.faqAnswers).forEach(([i,a])=>{ if(FAQ[i]) FAQ[i].a = a; });
     if(d.text){ Object.assign(TEXT, d.text); ["en","vi","ko"].forEach(l=> Object.assign(I18N[l], d.text[l]||{})); }
   }catch(e){}

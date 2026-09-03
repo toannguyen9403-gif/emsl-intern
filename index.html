@@ -296,6 +296,9 @@ html[data-lang="vi"] .menu a.btn--apply,html[data-lang="ko"] .menu a.btn--apply{
   overflow:hidden;display:flex;flex-direction:column}
 .tile__body{padding:1.1rem 1.25rem 1.35rem;display:flex;flex-direction:column;gap:.55rem}
 .tile__icon{width:32px;height:32px;color:var(--data)}
+@media (min-width:1100px){#research-grid{grid-template-columns:repeat(3,1fr)}}
+.frame--contain{background:#fff;border-style:solid;border-color:var(--line)}
+.frame--contain img{object-fit:contain;padding:1rem;background:#fff}
 .tile h3{font-size:var(--t-base)}
 .tile p{font-size:var(--t-sm);color:var(--muted);margin:0}
 .tile .frame{border-radius:0;border-width:1px 0 0 0;border-style:dashed}
@@ -513,7 +516,7 @@ body.ed-on{padding-right:0}
       </svg>
       <span class="brand__txt">
         <span class="brand__name">EMSLab</span>
-        <span class="brand__sub" data-i18n="brandSub">Department of Physics · Soongsil University</span>
+        <span class="brand__sub" data-i18n="brandSub">Department of Physics &amp; IIBS · Soongsil University</span>
       </span>
     </a>
 
@@ -528,8 +531,8 @@ body.ed-on{padding-right:0}
           </button>
           <ul class="drop">
             <li><a href="#upcoming" data-i18n="navUpcoming">Upcoming Program</a></li>
-            <li><a href="#programs" data-filter="spring" data-i18n="navSpring">Spring Internship</a></li>
-            <li><a href="#programs" data-filter="summer" data-i18n="navSummer">Summer Internship</a></li>
+            <li><a href="#programs" data-i18n="navTimeline">Program Timeline</a></li>
+            <li><a href="#archive" data-i18n="navPast">Past Programs</a></li>
           </ul>
         </li>
 
@@ -539,9 +542,7 @@ body.ed-on{padding-right:0}
             <svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5 6 8.5 10 4.5"/></svg>
           </button>
           <ul class="drop">
-            <li><a href="#archive-spring-2026">Spring 2026</a></li>
             <li><a href="#archive-summer-2026">Summer 2026</a></li>
-            <li><a href="#archive" class="is-placeholder">[Add More Programs]</a></li>
             <li class="drop__note" data-i18n="dropNotePast">New cohorts are added in the PROGRAMS list in the script.</li>
           </ul>
         </li>
@@ -553,8 +554,7 @@ body.ed-on{padding-right:0}
           </button>
           <ul class="drop">
             <li><a href="#overview" data-i18n="navOverview">Overview</a></li>
-            <li><a href="#research" data-i18n="navResearch">Research Areas</a></li>
-            <li><a href="#schedule" data-i18n="navSchedule">Schedule</a></li>
+            <li><a href="#research" data-i18n="navResearch">Research Topics</a></li>
             <li><a href="#details" data-tab="eligibility" data-i18n="navEligibility">Eligibility</a></li>
             <li><a href="#details" data-tab="documents" data-i18n="navApplication">Application</a></li>
             <li><a href="#faq" data-i18n="navFaq">FAQ</a></li>
@@ -568,13 +568,10 @@ body.ed-on{padding-right:0}
           </button>
           <ul class="drop">
             <li><a href="#lab" data-i18n="navLab">Laboratory</a></li>
-            <li><a href="#lab-research" data-i18n="navLabResearch">Research</a></li>
             <li><a href="#people" data-i18n="navPeople">People</a></li>
-            <li><a href="#facilities" data-i18n="navFacilities">Facilities</a></li>
           </ul>
         </li>
 
-        <li><a href="#gallery" data-i18n="navGallery">Gallery</a></li>
         <li><a href="#contact" data-i18n="navContact">Contact</a></li>
         <li><a class="btn btn--apply btn--sm" href="#apply" id="navApply" data-i18n="applyNow">Apply Now</a></li>
       </ul>
@@ -618,9 +615,11 @@ body.ed-on{padding-right:0}
         <a class="btn btn--ghost" href="#overview" data-i18n="explore">Explore the Program</a>
       </div>
       <p class="hero__facts">
-        <span data-i18n="factDuration">Duration:</span> <b>6 Weeks</b> <span class="sep">|</span>
-        <span data-i18n="factLocation">Location:</span> <b>Seoul, South Korea</b> <span class="sep">|</span>
-        <span data-i18n="factHost">Host:</span> <b>EMSLab, Soongsil University</b>
+        <span class="fact"><span data-i18n="factDuration">Duration:</span> <b>6 Weeks</b></span>
+        <span class="sep">|</span>
+        <span class="fact"><span data-i18n="factLocation">Location:</span> <b>Seoul, South Korea</b></span>
+        <span class="sep">|</span>
+        <span class="fact"><span data-i18n="factHost">Host:</span> <b>EMSLab, Soongsil University</b></span>
       </p>
     </div>
 
@@ -718,8 +717,6 @@ body.ed-on{padding-right:0}
     </div>
     <div class="filters" role="group" aria-label="Filter cohorts">
       <button type="button" data-f="all" aria-pressed="true" data-i18n="fAll">All Programs</button>
-      <button type="button" data-f="spring" aria-pressed="false" data-i18n="fSpring">Spring</button>
-      <button type="button" data-f="summer" aria-pressed="false" data-i18n="fSummer">Summer</button>
       <button type="button" data-f="ahead" aria-pressed="false" data-i18n="fUpcoming">Upcoming</button>
       <button type="button" data-f="completed" aria-pressed="false" data-i18n="fCompleted">Completed</button>
     </div>
@@ -740,33 +737,27 @@ body.ed-on{padding-right:0}
   </div>
 </section>
 
-<!-- ==================== RESEARCH AREAS ==================== -->
+<!-- ==================== RESEARCH TOPICS ==================== -->
 <section class="sec" id="research">
   <div class="wrap">
     <div class="sec-head">
       <div class="rule" aria-hidden="true"></div>
-      <h2 data-i18n="raTitle">Research areas</h2>
-      <p data-i18n="raDeck">Internship topics are assigned from the laboratory's active research lines. Confirm the topic list for your cohort with the program coordinator before applying.</p>
+      <h2 data-i18n="rtTitle">Research topics</h2>
+      <p data-i18n="rtDeck">Every topic builds on one core subject — luminescent materials. Internship projects are assigned from the five directions below.</p>
     </div>
+    <figure class="frame frame--16x9 frame--contain" data-slot="topicsDiagram" style="margin-bottom:2.5rem">
+      <img alt="" hidden>
+      <span class="frame__meta">
+        <span class="frame__label">[RESEARCH TOPICS DIAGRAM — Insert Image Here]</span>
+        <span class="frame__hint">Ảnh sơ đồ 5 hướng nghiên cứu — hiển thị trọn ảnh, không bị cắt</span>
+      </span>
+    </figure>
     <div class="grid-3" id="research-grid"></div>
   </div>
 </section>
 
-<!-- ==================== SIX-WEEK STRUCTURE ==================== -->
-<section class="sec sec--mist" id="schedule">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="rule" aria-hidden="true"></div>
-      <h2 data-i18n="wkTitle">Six-week program structure</h2>
-      <p data-i18n="wkDeck">A typical cohort follows the sequence below, from safety training to the final presentation.</p>
-    </div>
-    <div class="weeks" id="weeks"></div>
-    <p class="note" data-i18n="wkNote">Program activities may vary depending on the research topic and semester.</p>
-  </div>
-</section>
-
 <!-- ==================== PROGRAMME DETAILS (TABS) ==================== -->
-<section class="sec" id="details">
+<section class="sec sec--mist" id="details">
   <div class="wrap">
     <div class="sec-head">
       <div class="rule" aria-hidden="true"></div>
@@ -866,7 +857,7 @@ body.ed-on{padding-right:0}
 </section>
 
 <!-- ==================== PAST PROGRAMMES ARCHIVE ==================== -->
-<section class="sec sec--mist" id="archive">
+<section class="sec" id="archive">
   <div class="wrap">
     <div class="sec-head">
       <div class="rule" aria-hidden="true"></div>
@@ -942,20 +933,8 @@ body.ed-on{padding-right:0}
   </div>
 </section>
 
-<!-- ==================== RESEARCH LINES ==================== -->
-<section class="sec" id="lab-research">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="rule" aria-hidden="true"></div>
-      <h2 data-i18n="lrTitle">Research at EMSLab</h2>
-      <p data-i18n="lrDeck">From powder or bulk synthesis to structural refinement and steady-state and time-resolved luminescence.</p>
-    </div>
-    <div class="grid-3" id="lines"></div>
-  </div>
-</section>
-
 <!-- ==================== PEOPLE ==================== -->
-<section class="sec sec--mist" id="people">
+<section class="sec" id="people">
   <div class="wrap">
     <div class="sec-head">
       <div class="rule" aria-hidden="true"></div>
@@ -966,32 +945,8 @@ body.ed-on{padding-right:0}
   </div>
 </section>
 
-<!-- ==================== FACILITIES ==================== -->
-<section class="sec" id="facilities">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="rule" aria-hidden="true"></div>
-      <h2 data-i18n="fcTitle">Facilities and methods</h2>
-      <p data-i18n="fcDeck">Techniques available to interns. Replace the bracketed entries with the instrument makes and models used in your laboratory.</p>
-    </div>
-    <div class="grid-3" id="facilities-grid"></div>
-  </div>
-</section>
-
-<!-- ==================== GALLERY ==================== -->
-<section class="sec sec--mist" id="gallery">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="rule" aria-hidden="true"></div>
-      <h2 data-i18n="glTitle">Gallery</h2>
-      <p data-i18n="glDeck">Laboratory work, seminars, presentations and cultural activities across all cohorts. Select an image to enlarge it.</p>
-    </div>
-    <div class="gal" id="gallery-grid"></div>
-  </div>
-</section>
-
 <!-- ==================== LIFE IN SEOUL ==================== -->
-<section class="sec" id="life">
+<section class="sec sec--mist" id="life">
   <div class="wrap">
     <div class="sec-head">
       <div class="rule" aria-hidden="true"></div>
@@ -1003,7 +958,7 @@ body.ed-on{padding-right:0}
 </section>
 
 <!-- ==================== FAQ ==================== -->
-<section class="sec sec--mist" id="faq">
+<section class="sec" id="faq">
   <div class="wrap">
     <div class="sec-head">
       <div class="rule" aria-hidden="true"></div>
@@ -1051,9 +1006,9 @@ body.ed-on{padding-right:0}
       <div>
         <dl>
           <dt data-i18n="coLab">Laboratory</dt><dd>EMSLab — Electronic Materials Spectroscopy Laboratory</dd>
-          <dt data-i18n="coDept">Department</dt><dd>Department of Physics</dd>
+          <dt data-i18n="coDept">Department</dt><dd>Department of Physics &amp; IIBS</dd>
           <dt data-i18n="coUniv">University</dt><dd>Soongsil University</dd>
-          <dt data-i18n="coAddr">Address</dt><dd>Seoul, Republic of Korea<br><span data-bind="contact.room">[Building and Room Number]</span></dd>
+          <dt data-i18n="coAddr">Address</dt><dd><span data-bind="contact.room">Baird Hall 01433</span><br>Sangdo-ro 369, Seoul 06978, Republic of Korea</dd>
           <dt data-i18n="coEmail">Email</dt><dd data-bind="contact.email">[Program Email]</dd>
           <dt data-i18n="coPhone">Telephone</dt><dd data-bind="contact.phone">[Phone Number]</dd>
           <dt data-i18n="coWeb">Website</dt><dd data-bind="contact.web">[Official Website]</dd>
@@ -1100,7 +1055,6 @@ body.ed-on{padding-right:0}
       <div>
         <h4 data-i18n="ftArchive">Program archive</h4>
         <ul>
-          <li><a href="#archive-spring-2026">Spring 2026</a></li>
           <li><a href="#archive-summer-2026">Summer 2026</a></li>
           <li><a href="#archive" data-i18n="ftAll">All cohorts</a></li>
         </ul>
@@ -1141,27 +1095,27 @@ const CONFIG = {
   applicationDeadline: "",
 
   /* Text shown in the hero badge, the featured heading and the CTA block.    */
-  cohortLabel:   "[Spring/Summer 20XX]",
-  cohortBadge:   "[Spring/Summer 20XX Applications Now Open]",
-  cohortHeading: "[Spring/Summer 20XX Research Internship]",
+  cohortLabel:   "Summer 2027",
+  cohortBadge:   "Summer 2027 · [Application Status]",
+  cohortHeading: "Summer 2027 Research Internship",
   deadlineText:  "[Application Deadline]",
 
   /* Links. Leave "" and the button stays inert and visibly unset.            */
   links: {
-    apply:"", guide:"", lab:"", dept:"", univ:"",
+    apply:"", guide:"", lab:"https://sites.google.com/view/emsl-ssu/introduction", dept:"", univ:"",
     instagram:"", linkedin:"", youtube:"", privacy:"", a11y:""
   },
 
   /* Photographs. Put files in an /assets folder and write the path here.
      A frame with an empty path keeps its labelled placeholder.               */
   images: {
-    hero:"", upcomingBanner:"", eligibility:"", benefits:"", selection:"",
+    hero:"", upcomingBanner:"", topicsDiagram:"", eligibility:"", benefits:"", selection:"",
     labMain:"", labEquip:"", labTeam:"", campus:"", map:"", qr:""
   },
 
   /* Nội dung của kỳ sắp tới, hiển thị ở bảng thông tin.                       */
   upcoming: {
-    program:"[Spring/Summer 20XX Research Internship]",
+    program:"Summer 2027 Research Internship",
     dates:"[Start Date] – [End Date]",
     venue:"EMSLab, Department of Physics, Soongsil University, Seoul",
     eligible:"[Eligible Students]",
@@ -1172,8 +1126,8 @@ const CONFIG = {
   eligibility: { level:"[Academic Level]", major:"[Required Major or Background]",
                  lang:"[Language Requirement]", other:"[Other Requirements]" },
   dates:   { open:"[Date]", close:"[Date]", interview:"[Date]", result:"[Date]", period:"[Date]" },
-  contact: { room:"[Building and Room Number]", email:"[Program Email]", phone:"[Phone Number]",
-             web:"[Official Website]", hours:"[Office Hours]" },
+  contact: { room:"Baird Hall 01433", email:"ylee(at)ssu.ac.kr", phone:"+82-2-820-0404 (Tel/Fax)",
+             web:"sites.google.com/view/emsl-ssu", hours:"[Office Hours]" },
 
   /* Video and map embeds. Paste a YouTube link (any form) or an .mp4 path.
      Google Maps: Share > Embed a map > copy the src="..." value only.          */
@@ -1182,11 +1136,9 @@ const CONFIG = {
 
   /* Impact figures — keep the brackets until the office confirms real values. */
   stats: [
-    { n:"[XX]",  k:"statParticipants" },
-    { n:"[XX]",  k:"statCountries"    },
-    { n:"[XX]",  k:"statProjects"     },
-    { n:"[XX]",  k:"statTalks"        },
-    { n:"[XX]%", k:"statSatisfaction" }
+    { n:"[XX]", k:"statTotal" },
+    { n:"[XX]", k:"statIntl"  },
+    { n:"[XX]", k:"statKorean" }
   ]
 };
 
@@ -1224,95 +1176,37 @@ const VALUES = [
                     ko:["문화 체험","연구실 밖 서울에서의 경험도 프로그램의 일부입니다."] }
 ];
 
-const RESEARCH = [
-  { icon:"crystal", slot:"raCondensed", title:"[Condensed Matter Physics]",
-    en:"Electronic, vibrational and optical states of crystalline solids, and how they follow from structure.",
-    vi:"Trạng thái điện tử, dao động và quang học của vật rắn tinh thể, và mối liên hệ với cấu trúc.",
-    ko:"결정성 고체의 전자·진동·광학적 상태와 구조와의 상관관계를 다룹니다." },
-  { icon:"cube", slot:"raSolid", title:"[Solid-State Physics]",
-    en:"Phase formation, site symmetry and local coordination in inorganic host lattices.",
-    vi:"Sự hình thành pha, đối xứng vị trí và phối trí cục bộ trong mạng nền vô cơ.",
-    ko:"무기 호스트 격자의 상 형성, 자리 대칭성 및 국소 배위를 연구합니다." },
-  { icon:"flask", slot:"raMaterials", title:"[Materials Science]",
-    en:"Synthesis routes, phase purity, particle morphology and thermal stability of powder and bulk samples.",
-    vi:"Quy trình tổng hợp, độ tinh khiết pha, hình thái hạt và độ bền nhiệt của mẫu bột và mẫu khối.",
-    ko:"분말 및 벌크 시료의 합성 경로, 상 순도, 입자 형상, 열적 안정성을 다룹니다." },
-  { icon:"beam", slot:"raOptical", title:"[Optical / Photonic Materials]",
-    en:"Rare-earth activated luminescent materials: excitation channels, emission colour and quantum yield.",
-    vi:"Vật liệu phát quang pha tạp đất hiếm: kênh kích thích, màu phát xạ và hiệu suất lượng tử.",
-    ko:"희토류 도핑 발광 재료의 여기 채널, 발광 색좌표, 양자효율을 연구합니다." },
-  { icon:"micro", slot:"raNano", title:"[Nanomaterials]",
-    en:"Size and surface effects on morphology, defect states and emission behaviour.",
-    vi:"Ảnh hưởng của kích thước và bề mặt đến hình thái, trạng thái khuyết tật và đặc trưng phát xạ.",
-    ko:"크기 및 표면 효과가 형상, 결함 준위, 발광 특성에 미치는 영향을 다룹니다." },
-  { icon:"chart", slot:"raMethods", title:"[Experimental and Computational Methods]",
-    en:"Rietveld refinement, decay-curve fitting and colorimetric analysis of measured spectra.",
-    vi:"Phân tích Rietveld, khớp đường cong suy giảm và phân tích tọa độ màu từ phổ đo được.",
-    ko:"Rietveld 정밀화, 감쇠곡선 피팅, 측정 스펙트럼의 색도 해석을 포함합니다." }
+const TOPICS = [
+  { icon:"beam",
+    t:{en:"Novel phosphors", vi:"Vật liệu phát quang mới", ko:"신규 형광체"},
+    b:{en:["High efficiency and colour tunability","Low-cost synthesis","New host materials"],
+       vi:["Hiệu suất cao, điều chỉnh được màu phát xạ","Quy trình chế tạo chi phí thấp","Vật liệu nền mới"],
+       ko:["고효율 및 발광색 조절","저비용 합성 공정","신규 호스트 소재"]} },
+  { icon:"wave",
+    t:{en:"Luminescent sensors", vi:"Cảm biến phát quang", ko:"발광 센서"},
+    b:{en:["Optical thermometry","Bio-imaging","Dosimetry","Encryption and anti-counterfeiting"],
+       vi:["Đo nhiệt độ bằng quang học","Ảnh sinh học","Đo liều bức xạ","Mã hoá và chống hàng giả"],
+       ko:["광학 온도 측정","바이오 이미징","선량 측정","암호화 및 위조 방지"]} },
+  { icon:"cube",
+    t:{en:"Luminescent memory", vi:"Bộ nhớ phát quang", ko:"발광 메모리"},
+    b:{en:["Optically stimulated luminescence","Thermoluminescence","Photochromic behaviour","Defect-related mechanisms"],
+       vi:["Phát quang kích thích quang (OSL)","Nhiệt phát quang (TL)","Hiệu ứng quang sắc","Cơ chế liên quan đến khuyết tật"],
+       ko:["광자극 발광 (OSL)","열자극 발광 (TL)","광변색 특성","결함 관련 메커니즘"]} },
+  { icon:"crystal",
+    t:{en:"Multi-functionality", vi:"Đa chức năng", ko:"다기능성"},
+    b:{en:["Luminescent ferroelectrics and high-K dielectrics","Probing local lattice properties"],
+       vi:["Sắt điện phát quang và điện môi high-K","Khảo sát tính chất mạng cục bộ"],
+       ko:["발광 강유전체 및 high-K 유전체","국소 격자 특성 규명"]} },
+  { icon:"atom",
+    t:{en:"Synaptic devices", vi:"Linh kiện synapse", ko:"시냅스 소자"},
+    b:{en:["Luminescent synapse","Neuromorphic computing"],
+       vi:["Synapse phát quang","Tính toán phỏng thần kinh"],
+       ko:["발광 시냅스","뉴로모픽 컴퓨팅"]} }
 ];
 
-const LINES = [
-  { icon:"flask", title:{en:"Synthesis",vi:"Tổng hợp vật liệu",ko:"재료 합성"},
-    body:{en:"Powder and bulk samples prepared by solid-state reaction, with stoichiometric batch calculation and controlled firing.",
-          vi:"Chế tạo mẫu bột và mẫu khối bằng phản ứng pha rắn, kèm tính toán phối liệu theo hợp thức và chế độ nung kiểm soát.",
-          ko:"고상 반응법으로 분말 및 벌크 시료를 제작하며, 화학량론적 배합 계산과 제어된 소성 조건을 적용합니다."} },
-  { icon:"cube", title:{en:"Structure",vi:"Phân tích cấu trúc",ko:"구조 분석"},
-    body:{en:"Phase identification and Rietveld refinement from X-ray diffraction, supported by electron microscopy.",
-          vi:"Định pha và phân tích Rietveld từ giản đồ nhiễu xạ tia X, kết hợp hiển vi điện tử.",
-          ko:"X선 회절 데이터의 상 규명과 Rietveld 정밀화를 수행하고, 전자현미경으로 보완합니다."} },
-  { icon:"wave", title:{en:"Luminescence",vi:"Tính chất phát quang",ko:"발광 특성"},
-    body:{en:"Steady-state PL and PLE, decay lifetimes, absolute quantum yield and temperature-dependent emission.",
-          vi:"Phổ PL và PLE ở trạng thái dừng, thời gian sống phát quang, hiệu suất lượng tử tuyệt đối và phát xạ phụ thuộc nhiệt độ.",
-          ko:"정상상태 PL·PLE, 감쇠 수명, 절대 양자효율, 온도 의존 발광을 측정합니다."} }
-];
 
-const FACILITIES = [
-  { icon:"cube",  t:{en:"X-ray diffraction (XRD)",vi:"Nhiễu xạ tia X (XRD)",ko:"X선 회절 (XRD)"},
-    b:{en:"Phase identification and Rietveld structural refinement. Instrument: [Make and Model].",
-       vi:"Định pha và phân tích cấu trúc Rietveld. Thiết bị: [Hãng và Model].",
-       ko:"상 규명 및 Rietveld 구조 정밀화. 장비: [제조사 및 모델]."} },
-  { icon:"micro", t:{en:"Scanning electron microscopy (SEM)",vi:"Hiển vi điện tử quét (SEM)",ko:"주사전자현미경 (SEM)"},
-    b:{en:"Particle morphology, size distribution and elemental mapping. Instrument: [Make and Model].",
-       vi:"Hình thái hạt, phân bố kích thước và ánh xạ nguyên tố. Thiết bị: [Hãng và Model].",
-       ko:"입자 형상, 크기 분포, 원소 매핑. 장비: [제조사 및 모델]."} },
-  { icon:"beam",  t:{en:"Photoluminescence (PL / PLE)",vi:"Phổ phát quang (PL / PLE)",ko:"광발광 (PL / PLE)"},
-    b:{en:"Steady-state excitation and emission spectra across the visible range. Instrument: [Make and Model].",
-       vi:"Phổ kích thích và phổ phát xạ ở trạng thái dừng trong vùng khả kiến. Thiết bị: [Hãng và Model].",
-       ko:"가시광 영역의 정상상태 여기·발광 스펙트럼 측정. 장비: [제조사 및 모델]."} },
-  { icon:"clock", t:{en:"Time-resolved PL (TRPL)",vi:"Phát quang phân giải thời gian (TRPL)",ko:"시간분해 발광 (TRPL)"},
-    b:{en:"Decay curves and lifetime fitting for radiative and non-radiative channels. Instrument: [Make and Model].",
-       vi:"Đường cong suy giảm và khớp thời gian sống cho kênh bức xạ và không bức xạ. Thiết bị: [Hãng và Model].",
-       ko:"복사·비복사 채널의 감쇠곡선 및 수명 피팅. 장비: [제조사 및 모델]."} },
-  { icon:"atom",  t:{en:"Absolute quantum yield (PLQY)",vi:"Hiệu suất lượng tử tuyệt đối (PLQY)",ko:"절대 양자효율 (PLQY)"},
-    b:{en:"Integrating-sphere measurement of absolute emission efficiency. Instrument: [Make and Model].",
-       vi:"Đo hiệu suất phát xạ tuyệt đối bằng quả cầu tích phân. Thiết bị: [Hãng và Model].",
-       ko:"적분구를 이용한 절대 발광 효율 측정. 장비: [제조사 및 모델]."} },
-  { icon:"chart", t:{en:"Data analysis",vi:"Phân tích dữ liệu",ko:"데이터 분석"},
-    b:{en:"Refinement software, decay fitting and CIE colour-coordinate calculation. Software: [List].",
-       vi:"Phần mềm phân tích cấu trúc, khớp suy giảm và tính tọa độ màu CIE. Phần mềm: [Danh sách].",
-       ko:"정밀화 소프트웨어, 감쇠 피팅, CIE 색좌표 계산. 소프트웨어: [목록]."} }
-];
 
-const WEEKS = [
-  { en:["Orientation","Laboratory introduction, safety training and project assignment."],
-    vi:["Định hướng","Giới thiệu phòng thí nghiệm, huấn luyện an toàn và phân công đề tài."],
-    ko:["오리엔테이션","연구실 소개, 안전 교육, 연구 주제 배정."] },
-  { en:["Foundations","Fundamental concepts and training in the research methods used on the project."],
-    vi:["Nền tảng","Kiến thức cơ bản và huấn luyện phương pháp nghiên cứu sử dụng trong đề tài."],
-    ko:["기초 학습","연구에 필요한 기본 개념과 연구 방법 교육."] },
-  { en:["Experiment","Experimental or computational work under supervision."],
-    vi:["Thực nghiệm","Tiến hành thực nghiệm hoặc mô phỏng dưới sự hướng dẫn."],
-    ko:["실험 수행","지도하에 실험 또는 전산 연구를 수행합니다."] },
-  { en:["Data and analysis","Data collection, processing and interpretation of results."],
-    vi:["Dữ liệu và phân tích","Thu thập, xử lý và biện luận kết quả."],
-    ko:["데이터 분석","데이터 수집, 처리 및 결과 해석."] },
-  { en:["Discussion","Research discussion with the supervisor and preparation of the presentation."],
-    vi:["Thảo luận","Thảo luận kết quả với giảng viên hướng dẫn và chuẩn bị báo cáo."],
-    ko:["연구 토론","지도교수와의 논의 및 발표 준비."] },
-  { en:["Presentation","Final presentation, feedback and completion of the program."],
-    vi:["Báo cáo","Báo cáo tổng kết, nhận phản hồi và hoàn thành chương trình."],
-    ko:["최종 발표","최종 발표, 피드백, 프로그램 수료."] }
-];
+
 
 const BENEFITS = [
   { en:"Research experience on an active project", vi:"Kinh nghiệm nghiên cứu trên đề tài đang triển khai", ko:"진행 중인 연구 과제 참여 경험" },
@@ -1351,25 +1245,17 @@ const SELECTION = [
 /* --- Cohorts. Add a new object here and it appears in the timeline,
        in the archive (when archived:true) and in the navigation list. --- */
 const PROGRAMS = [
-  { id:"spring-2026", season:"spring", year:2026, state:"completed", archived:true,
-    name:"Spring 2026 Research Internship", dates:"[Start Date – End Date]",
-    participants:"[XX]", countries:"[Participating Universities and Countries]",
-    topic:"[Research Topic]", activities:"[Main Activities]", outcomes:"[Results and Achievements]",
-    quote:"[Insert Student Testimonial]", quoteBy:"[Student Name] — [University, Country]",
-    image:"", video:"", story:"" },
   { id:"summer-2026", season:"summer", year:2026, state:"completed", archived:true,
     name:"Summer 2026 Research Internship", dates:"[Start Date – End Date]",
     participants:"[XX]", countries:"[Participating Universities and Countries]",
     topic:"[Research Topic]", activities:"[Main Activities]", outcomes:"[Results and Achievements]",
     quote:"[Insert Student Testimonial]", quoteBy:"[Student Name] — [University, Country]",
     image:"", video:"", story:"" },
-  { id:"spring-2027", season:"spring", year:2027, state:"open", archived:false,
-    name:"Spring 2027 Research Internship", dates:"[Start Date – End Date]",
-    participants:"[Number of Participants]", topic:"[Research Topic]", image:"" },
-  { id:"summer-2027", season:"summer", year:2027, state:"planned", archived:false,
+  { id:"summer-2027", season:"summer", year:2027, state:"upcoming", archived:false,
     name:"Summer 2027 Research Internship", dates:"[Start Date – End Date]",
     participants:"[Number of Participants]", topic:"[Research Topic]", image:"" }
 ];
+
 
 const TESTIMONIALS = [
   { name:"[Student Name]", from:"[University and Country]", cohort:"[Spring/Summer 20XX Participant]", text:"[Insert Student Testimonial]", photo:"" },
@@ -1379,7 +1265,8 @@ const TESTIMONIALS = [
 ];
 
 const PEOPLE = [
-  { name:"[Professor's Name]", roleKey:"rolePI",     field:"[Research Field]", mail:"[Email]", photo:"" },
+  { name:"Prof. Y. S. Lee", roleKey:"rolePI", field:"Luminescent materials and spectroscopy",
+    mail:"ylee(at)ssu.ac.kr", photo:"" },
   { name:"[Professor's Name]", roleKey:"roleProf",   field:"[Research Field]", mail:"[Email]", photo:"" },
   { name:"[Researcher's Name]",roleKey:"roleFellow", field:"[Research Field]", mail:"[Email]", photo:"" },
   { name:"[Mentor's Name]",    roleKey:"roleMentor", field:"[Research Field]", mail:"[Email]", photo:"" },
@@ -1409,16 +1296,6 @@ const FAQ = [
     a:{ en:"", vi:"", ko:"" } }
 ];
 
-const GALLERY = [
-  { cls:"g-wide",  ratio:"21x9", label:"[GROUP PHOTO — Insert Image Here]",        hint:"21:9 · 2100 × 900 px",  src:"" },
-  { cls:"g-third", ratio:"4x3",  label:"[LAB ACTIVITY — Insert Image Here]",       hint:"4:3 · 1200 × 900 px",   src:"" },
-  { cls:"g-third", ratio:"4x3",  label:"[LAB ACTIVITY — Insert Image Here]",       hint:"4:3 · 1200 × 900 px",   src:"" },
-  { cls:"g-third", ratio:"4x3",  label:"[SEMINAR — Insert Image Here]",            hint:"4:3 · 1200 × 900 px",   src:"" },
-  { cls:"g-half",  ratio:"3x2",  label:"[FINAL PRESENTATION — Insert Image Here]", hint:"3:2 · 1500 × 1000 px",  src:"" },
-  { cls:"g-half",  ratio:"3x2",  label:"[CULTURAL ACTIVITY — Insert Image Here]",  hint:"3:2 · 1500 × 1000 px",  src:"" },
-  { cls:"g-half",  ratio:"16x9", label:"[POSTER SESSION — Insert Image Here]",     hint:"16:9 · 1600 × 900 px",  src:"" },
-  { cls:"g-half",  ratio:"16x9", label:"[VIDEO HIGHLIGHT — Insert Video Here]",    hint:"16:9 · YouTube link or .mp4", video:"galleryHighlight" }
-];
 
 const SEOUL = [
   { cls:"g-third", ratio:"4x3", label:"[Insert Campus Photo]",            hint:"Soongsil campus",       src:"" },
@@ -1446,16 +1323,17 @@ const ARCHIVE_FRAMES = [
    ============================================================================ */
 const I18N = {
 en:{
-skip:"Skip to main content", brandSub:"Department of Physics · Soongsil University",
-navHome:"Home", navPrograms:"Programs", navUpcoming:"Upcoming Program", navSpring:"Spring Internship",
+skip:"Skip to main content", brandSub:"Department of Physics & IIBS · Soongsil University",
+navHome:"Home", navPrograms:"Programs", navUpcoming:"Upcoming Program", navTimeline:"Program Timeline",
+navSpring:"Spring Internship",
 navSummer:"Summer Internship", navPast:"Past Programs", dropNotePast:"New cohorts are added in the PROGRAMS list in the script.",
-navDetails:"Program Details", navOverview:"Overview", navResearch:"Research Areas", navSchedule:"Schedule",
+navDetails:"Program Details", navOverview:"Overview", navResearch:"Research Topics", navSchedule:"Schedule",
 navEligibility:"Eligibility", navApplication:"Application", navFaq:"FAQ", navAbout:"About EMSLab",
 navLab:"Laboratory", navLabResearch:"Research", navPeople:"People", navFacilities:"Facilities",
 navGallery:"Gallery", navContact:"Contact", applyNow:"Apply Now", explore:"Explore the Program",
 heroTitle:"EMSLab International Research Internship",
 heroTag:"Explore Physics. Experience Research. Connect Globally.",
-heroLede:"A six-week research internship hosted by EMSLab, Department of Physics, Soongsil University.",
+heroLede:"A six-week research internship hosted by EMSLab, Department of Physics & IIBS, Soongsil University.",
 factDuration:"Duration:", factLocation:"Location:", factHost:"Host:",
 heroCaption:"Visible emission range, 400–700 nm — the working window of the laboratory.",
 upcomingDeck:"Applications for the next cohort are handled by the EMSLab program office. Key dates and requirements are listed below.",
@@ -1497,10 +1375,11 @@ dtVisa:"Visa category and processing time: [Visa Information]", dtIns:"Insurance
 dtArr:"Arrival and orientation day: [Date]",
 arTitle:"Past programs", arDeck:"A record of every cohort: participants, topics, results and photographs.",
 imTitle:"Program highlights", imDeck:"Figures are updated by the program office after each cohort.",
-statParticipants:"International participants", statCountries:"Countries represented", statProjects:"Research projects",
-statTalks:"Academic presentations", statSatisfaction:"Participant satisfaction",
+statTotal:"Participants in total", statIntl:"International students", statKorean:"Korean students",
+rtTitle:"Research topics",
+rtDeck:"Every topic builds on one core subject — luminescent materials. Internship projects are assigned from the five directions below.",
 tsTitle:"Student experiences", tsDeck:"In the words of former participants.",
-abTitle:"About EMSLab", abDeck:"The Electronic Materials Spectroscopy Laboratory belongs to the Department of Physics, Soongsil University, Seoul, Republic of Korea.",
+abTitle:"About EMSLab", abDeck:"The Electronic Materials Spectroscopy Laboratory belongs to the Department of Physics & IIBS, Soongsil University, Seoul, Republic of Korea.",
 abMission:"Mission",
 abMissionBody:"[Add the laboratory mission statement here.] The group studies the relationship between crystal structure and optical response in solid-state materials, and trains students to carry a sample from synthesis through to a complete spectroscopic characterisation.",
 abEnv:"Working environment",
@@ -1524,7 +1403,7 @@ coLab:"Laboratory", coDept:"Department", coUniv:"University", coAddr:"Address", 
 coPhone:"Telephone", coWeb:"Website", coHours:"Office hours",
 mapHint:"Replace this frame with an embedded Google Maps iframe",
 coNote:"Write in English or Korean. Replies are normally sent within [Response Time].",
-ftBlurb:"EMSLab, Department of Physics, Soongsil University — solid-state and luminescent materials research in Seoul, Republic of Korea.",
+ftBlurb:"EMSLab, Department of Physics & IIBS, Soongsil University — luminescent materials research in Seoul, Republic of Korea.",
 ftQuick:"Quick links", ftArchive:"Program archive", ftAll:"All cohorts", ftInfo:"Information",
 ftPrivacy:"Privacy notice", ftA11y:"Accessibility", ftRights:"All rights reserved.",
 close:"Close", linkUnset:"[Link not set]",
@@ -1532,16 +1411,17 @@ docTitle:"EMSLab International Research Internship — Department of Physics, So
 metaDesc:"A six-week international research internship in solid-state and luminescent materials physics, hosted by EMSLab, Department of Physics, Soongsil University, Seoul, Republic of Korea."
 },
 vi:{
-skip:"Bỏ qua tới nội dung chính", brandSub:"Khoa Vật lý · Đại học Soongsil",
-navHome:"Trang chủ", navPrograms:"Chương trình", navUpcoming:"Kỳ sắp mở", navSpring:"Thực tập mùa xuân",
+skip:"Bỏ qua tới nội dung chính", brandSub:"Khoa Vật lý & IIBS · Đại học Soongsil",
+navHome:"Trang chủ", navPrograms:"Chương trình", navUpcoming:"Kỳ sắp mở", navTimeline:"Dòng thời gian",
+navSpring:"Thực tập mùa xuân",
 navSummer:"Thực tập mùa hè", navPast:"Các kỳ đã diễn ra", dropNotePast:"Thêm kỳ mới trong danh sách PROGRAMS ở phần script.",
-navDetails:"Thông tin chương trình", navOverview:"Tổng quan", navResearch:"Lĩnh vực nghiên cứu", navSchedule:"Lịch trình",
+navDetails:"Thông tin chương trình", navOverview:"Tổng quan", navResearch:"Chủ đề nghiên cứu", navSchedule:"Lịch trình",
 navEligibility:"Điều kiện", navApplication:"Hồ sơ đăng ký", navFaq:"Câu hỏi thường gặp", navAbout:"Giới thiệu EMSLab",
 navLab:"Phòng thí nghiệm", navLabResearch:"Nghiên cứu", navPeople:"Nhân sự", navFacilities:"Trang thiết bị",
 navGallery:"Thư viện ảnh", navContact:"Liên hệ", applyNow:"Đăng ký ngay", explore:"Tìm hiểu chương trình",
 heroTitle:"Chương trình thực tập nghiên cứu quốc tế EMSLab",
 heroTag:"Khám phá vật lý. Trải nghiệm nghiên cứu. Kết nối quốc tế.",
-heroLede:"Chương trình thực tập nghiên cứu sáu tuần do EMSLab, Khoa Vật lý, Đại học Soongsil tổ chức.",
+heroLede:"Chương trình thực tập nghiên cứu sáu tuần do EMSLab, Khoa Vật lý & IIBS, Đại học Soongsil tổ chức.",
 factDuration:"Thời lượng:", factLocation:"Địa điểm:", factHost:"Đơn vị tổ chức:",
 heroCaption:"Vùng phát xạ khả kiến 400–700 nm — dải làm việc của phòng thí nghiệm.",
 upcomingDeck:"Việc tiếp nhận hồ sơ do văn phòng chương trình EMSLab phụ trách. Các mốc thời gian và yêu cầu chính được liệt kê dưới đây.",
@@ -1583,10 +1463,11 @@ dtVisa:"Loại visa và thời gian xử lý: [Visa Information]", dtIns:"Yêu c
 dtArr:"Ngày nhập học và định hướng: [Date]",
 arTitle:"Các kỳ đã diễn ra", arDeck:"Hồ sơ lưu trữ của từng kỳ: người tham gia, đề tài, kết quả và hình ảnh.",
 imTitle:"Kết quả nổi bật", imDeck:"Số liệu được văn phòng chương trình cập nhật sau mỗi kỳ.",
-statParticipants:"Người tham gia quốc tế", statCountries:"Quốc gia", statProjects:"Đề tài nghiên cứu",
-statTalks:"Báo cáo khoa học", statSatisfaction:"Mức độ hài lòng",
+statTotal:"Tổng số sinh viên tham gia", statIntl:"Sinh viên quốc tế", statKorean:"Sinh viên Hàn Quốc",
+rtTitle:"Chủ đề nghiên cứu",
+rtDeck:"Mọi chủ đề đều xoay quanh vật liệu phát quang. Đề tài thực tập được phân công từ năm hướng dưới đây.",
 tsTitle:"Trải nghiệm của sinh viên", tsDeck:"Chia sẻ từ những người đã tham gia.",
-abTitle:"Giới thiệu EMSLab", abDeck:"Electronic Materials Spectroscopy Laboratory trực thuộc Khoa Vật lý, Đại học Soongsil, Seoul, Hàn Quốc.",
+abTitle:"Giới thiệu EMSLab", abDeck:"Electronic Materials Spectroscopy Laboratory trực thuộc Khoa Vật lý & IIBS, Đại học Soongsil, Seoul, Hàn Quốc.",
 abMission:"Định hướng",
 abMissionBody:"[Bổ sung tuyên bố sứ mệnh của phòng thí nghiệm.] Nhóm nghiên cứu mối liên hệ giữa cấu trúc tinh thể và đáp ứng quang học của vật liệu rắn, đồng thời đào tạo sinh viên thực hiện trọn quy trình từ tổng hợp mẫu đến khảo sát phổ đầy đủ.",
 abEnv:"Môi trường làm việc",
@@ -1610,7 +1491,7 @@ coLab:"Phòng thí nghiệm", coDept:"Khoa", coUniv:"Trường", coAddr:"Địa 
 coPhone:"Điện thoại", coWeb:"Website", coHours:"Giờ làm việc",
 mapHint:"Thay khung này bằng iframe Google Maps",
 coNote:"Có thể viết bằng tiếng Anh hoặc tiếng Hàn. Thư thường được phản hồi trong vòng [Response Time].",
-ftBlurb:"EMSLab, Khoa Vật lý, Đại học Soongsil — nghiên cứu vật liệu rắn và vật liệu phát quang tại Seoul, Hàn Quốc.",
+ftBlurb:"EMSLab, Khoa Vật lý & IIBS, Đại học Soongsil — nghiên cứu vật liệu phát quang tại Seoul, Hàn Quốc.",
 ftQuick:"Liên kết nhanh", ftArchive:"Lưu trữ chương trình", ftAll:"Tất cả các kỳ", ftInfo:"Thông tin",
 ftPrivacy:"Chính sách bảo mật", ftA11y:"Khả năng tiếp cận", ftRights:"Bảo lưu mọi quyền.",
 close:"Đóng", linkUnset:"[Chưa gán liên kết]",
@@ -1618,16 +1499,17 @@ docTitle:"Chương trình thực tập nghiên cứu quốc tế EMSLab — Khoa
 metaDesc:"Chương trình thực tập nghiên cứu quốc tế sáu tuần về vật lý chất rắn và vật liệu phát quang, do EMSLab, Khoa Vật lý, Đại học Soongsil, Seoul, Hàn Quốc tổ chức."
 },
 ko:{
-skip:"본문으로 건너뛰기", brandSub:"물리학과 · 숭실대학교",
-navHome:"홈", navPrograms:"프로그램", navUpcoming:"모집 예정 프로그램", navSpring:"봄학기 인턴십",
+skip:"본문으로 건너뛰기", brandSub:"물리학과 & IIBS · 숭실대학교",
+navHome:"홈", navPrograms:"프로그램", navUpcoming:"모집 예정 프로그램", navTimeline:"프로그램 연혁",
+navSpring:"봄학기 인턴십",
 navSummer:"여름학기 인턴십", navPast:"지난 프로그램", dropNotePast:"새 기수는 스크립트의 PROGRAMS 목록에 추가합니다.",
-navDetails:"프로그램 안내", navOverview:"개요", navResearch:"연구 분야", navSchedule:"일정",
+navDetails:"프로그램 안내", navOverview:"개요", navResearch:"연구 주제", navSchedule:"일정",
 navEligibility:"지원 자격", navApplication:"지원 서류", navFaq:"자주 묻는 질문", navAbout:"EMSLab 소개",
 navLab:"연구실", navLabResearch:"연구", navPeople:"구성원", navFacilities:"연구 시설",
 navGallery:"갤러리", navContact:"연락처", applyNow:"지원하기", explore:"프로그램 살펴보기",
 heroTitle:"EMSLab 국제 연구 인턴십",
 heroTag:"물리를 탐구하고, 연구를 경험하고, 세계와 연결됩니다.",
-heroLede:"숭실대학교 물리학과 EMSLab이 운영하는 6주 연구 인턴십입니다.",
+heroLede:"숭실대학교 물리학과 및 IIBS 소속 EMSLab이 운영하는 6주 연구 인턴십입니다.",
 factDuration:"기간:", factLocation:"장소:", factHost:"주관:",
 heroCaption:"가시광 발광 영역 400–700 nm — 본 연구실의 측정 범위입니다.",
 upcomingDeck:"다음 기수의 지원 접수는 EMSLab 프로그램 사무국이 담당합니다. 주요 일정과 요건은 아래와 같습니다.",
@@ -1669,10 +1551,11 @@ dtVisa:"비자 종류 및 처리 기간: [Visa Information]", dtIns:"보험 요�
 dtArr:"입국 및 오리엔테이션 일자: [Date]",
 arTitle:"지난 프로그램", arDeck:"기수별 참가자, 연구 주제, 성과 및 사진 기록입니다.",
 imTitle:"프로그램 성과", imDeck:"수치는 각 기수 종료 후 사무국이 갱신합니다.",
-statParticipants:"국제 참가자", statCountries:"참여 국가", statProjects:"연구 과제",
-statTalks:"학술 발표", statSatisfaction:"참가자 만족도",
+statTotal:"총 참가 인원", statIntl:"외국인 학생", statKorean:"한국인 학생",
+rtTitle:"연구 주제",
+rtDeck:"모든 주제는 발광 재료를 중심으로 합니다. 인턴십 과제는 아래 다섯 방향에서 배정됩니다.",
 tsTitle:"참가자 후기", tsDeck:"이전 기수 참가자들의 이야기입니다.",
-abTitle:"EMSLab 소개", abDeck:"Electronic Materials Spectroscopy Laboratory는 대한민국 서울, 숭실대학교 물리학과 소속 연구실입니다.",
+abTitle:"EMSLab 소개", abDeck:"Electronic Materials Spectroscopy Laboratory는 대한민국 서울, 숭실대학교 물리학과 및 IIBS 소속 연구실입니다.",
 abMission:"연구 목표",
 abMissionBody:"[연구실 소개 문구를 입력하십시오.] 본 연구실은 고체 재료의 결정 구조와 광학적 응답의 상관관계를 연구하며, 시료 합성부터 분광 특성 평가까지 전 과정을 수행할 수 있도록 학생을 교육합니다.",
 abEnv:"연구 환경",
@@ -1696,7 +1579,7 @@ coLab:"연구실", coDept:"학과", coUniv:"대학교", coAddr:"주소", coEmail
 coPhone:"전화", coWeb:"웹사이트", coHours:"운영 시간",
 mapHint:"이 영역을 Google 지도 iframe으로 교체하십시오",
 coNote:"영어 또는 한국어로 문의할 수 있습니다. 답변은 보통 [Response Time] 이내에 드립니다.",
-ftBlurb:"숭실대학교 물리학과 EMSLab — 서울에서 고체 및 발광 재료를 연구합니다.",
+ftBlurb:"숭실대학교 물리학과 및 IIBS 소속 EMSLab — 서울에서 발광 재료를 연구합니다.",
 ftQuick:"바로가기", ftArchive:"프로그램 기록", ftAll:"전체 기수", ftInfo:"안내",
 ftPrivacy:"개인정보 처리방침", ftA11y:"접근성", ftRights:"All rights reserved.",
 close:"닫기", linkUnset:"[링크 미설정]",
@@ -1716,6 +1599,7 @@ const $$  = (s,r=document) => Array.from(r.querySelectorAll(s));
 const svg = k => '<svg class="value__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+ICON[k]+'</svg>';
 const svgSm = k => '<svg class="tile__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+ICON[k]+'</svg>';
 
+const tick = '<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M8 14.5 3.5 10l1.4-1.4L8 11.7l7.1-7.1L16.5 6z"/></svg>';
 function frame(o){
   const cls = ["frame","frame--"+(o.ratio||"4x3"),o.cls||""].join(" ").trim();
   const slot = o.slot ? ' data-slot="'+o.slot+'"' : "";
@@ -1769,31 +1653,13 @@ function renderValues(){
     return '<article class="value">'+svg(v.icon)+'<h3>'+h+'</h3><p>'+b+'</p></article>';
   }).join("");
 }
-function renderResearch(){
-  $("#research-grid").innerHTML = RESEARCH.map(r=>
-    '<article class="tile"><div class="tile__body">'+svgSm(r.icon)+'<h3>'+r.title+'</h3><p>'+p(r)+'</p></div>'+
-    frame({ratio:"16x9",label:"[Insert Research Image]",hint:"16:9 · 1200 × 675 px"})+'</article>'
-  ).join("");
+function renderTopics(){
+  $("#research-grid").innerHTML = TOPICS.map(x=>
+    '<article class="tile"><div class="tile__body">'+svgSm(x.icon)+'<h3>'+p(x.t)+'</h3>'+
+    '<ul class="checklist" style="gap:.4rem">'+p(x.b).map(li=>
+      '<li>'+tick+'<span style="font-size:var(--t-sm)">'+li+'</span></li>').join("")+
+    '</ul></div></article>').join("");
 }
-function renderLines(){
-  $("#lines").innerHTML = LINES.map(l=>
-    '<article class="tile"><div class="tile__body">'+svgSm(l.icon)+'<h3>'+p(l.title)+'</h3><p>'+p(l.body)+'</p></div></article>'
-  ).join("");
-}
-function renderFacilities(){
-  $("#facilities-grid").innerHTML = FACILITIES.map(f=>
-    '<article class="tile"><div class="tile__body">'+svgSm(f.icon)+'<h3>'+p(f.t)+'</h3><p>'+p(f.b)+'</p></div></article>'
-  ).join("");
-}
-function renderWeeks(){
-  $("#weeks").innerHTML = WEEKS.map((w,i)=>{
-    const [h,b] = p(w);
-    return '<div class="week"><span class="week__n">'+(i+1)+'</span>'+
-           '<span class="week__label">'+h+'</span><p>'+b+'</p>'+
-           '<span class="week__bar" aria-hidden="true"><span style="width:'+Math.round((i+1)/WEEKS.length*100)+'%"></span></span></div>';
-  }).join("");
-}
-const tick = '<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M8 14.5 3.5 10l1.4-1.4L8 11.7l7.1-7.1L16.5 6z"/></svg>';
 function renderLists(){
   $("#benefits").innerHTML  = BENEFITS.map(b=>'<li>'+tick+'<span>'+p(b)+'</span></li>').join("");
   $("#documents").innerHTML = DOCUMENTS.map(d=>'<li>'+tick+'<span>'+p(d)+'</span></li>').join("");
@@ -1887,10 +1753,8 @@ function renderFaq(){
       '<div class="acc__panel" id="faq-'+i+'" hidden><p>'+((q.a && p(q.a)) || t("faqAnswer"))+'</p></div></div>').join("");
 }
 function renderGalleries(){
-  $("#gallery-grid").innerHTML = GALLERY.map(g=>
-    g.video ? videoFrame(CONFIG.videos[g.video]||"", g.label, g.cls) : frame(g)).join("");
-  $("#seoul-grid").innerHTML   = SEOUL.map(g=>frame(g)).join("");
-  hydrateFrames($("#gallery-grid")); hydrateFrames($("#seoul-grid"));
+  $("#seoul-grid").innerHTML = SEOUL.map(g=>frame(g)).join("");
+  hydrateFrames($("#seoul-grid"));
 }
 
 /* ---------- CONFIG-driven text and links ---------- */
@@ -1966,8 +1830,7 @@ function startCountdown(){
 
 /* ---------- render everything ---------- */
 function renderAll(){
-  applyStatic(); renderValues(); renderResearch(); renderLines(); renderFacilities();
-  renderWeeks(); renderLists(); renderRail(); renderArchive(); renderStats();
+  applyStatic(); renderValues(); renderTopics(); renderLists(); renderRail(); renderArchive(); renderStats();
   renderTestimonials(); renderPeople(); renderFaq(); renderGalleries(); applyConfig();
   applyFilter($(".filters button[aria-pressed='true']")?.dataset.f || "all");
   observeReveal();
@@ -2128,13 +1991,14 @@ const CFIELD = (label, path, type) => F(label, 'data-cfg="'+path+'"', dig(CONFIG
 
 function panelHTML(){
   const L = CONFIG.links, IM = CONFIG.images;
-  const imgLabels = { hero:"Ảnh hero", upcomingBanner:"Banner kỳ sắp tới", eligibility:"Ảnh mục Điều kiện",
+  const imgLabels = { hero:"Ảnh hero", upcomingBanner:"Banner kỳ sắp tới",
+    topicsDiagram:"Sơ đồ chủ đề nghiên cứu", eligibility:"Ảnh mục Điều kiện",
     benefits:"Ảnh mục Quyền lợi", selection:"Ảnh mục Tuyển chọn", labMain:"Ảnh phòng thí nghiệm",
     labEquip:"Ảnh thiết bị", labTeam:"Ảnh nhóm", campus:"Ảnh khuôn viên trường", map:"Ảnh bản đồ", qr:"Mã QR" };
   const linkLabels = { apply:"Nút Apply Now", guide:"Tài liệu chương trình", lab:"Trang EMSLab",
     dept:"Trang Khoa Vật lý", univ:"Trang Đại học Soongsil", instagram:"Instagram", linkedin:"LinkedIn",
     youtube:"YouTube", privacy:"Chính sách bảo mật", a11y:"Khả năng tiếp cận" };
-  const statLabels = ["Người tham gia quốc tế","Số quốc gia","Số đề tài","Số báo cáo","Mức hài lòng (%)"];
+  const statLabels = ["Tổng số sinh viên tham gia","Sinh viên quốc tế","Sinh viên Hàn Quốc"];
 
   const sec = (title, inner, open) =>
     '<details data-sec="'+esc(title)+'"'+((ED.opened.has(title)||(open&&!ED.opened.size))?" open":"")+
@@ -2163,7 +2027,8 @@ function panelHTML(){
       F("Tên người trích dẫn",'data-arr="programs.'+i+'.quoteBy"',pr.quoteBy)+
       F("Link bài viết đầy đủ",'data-arr="programs.'+i+'.story"',pr.story)+
       F("Link video (YouTube hoặc .mp4)",'data-arr="programs.'+i+'.video"',pr.video)+
-      '<div class="row"><button class="mini mini--danger" data-del="programs.'+i+'">Xoá kỳ này</button></div>'+
+      '<div class="row"><button class="mini" data-dup="programs.'+i+'">Nhân bản kỳ này</button>'+
+      '<button class="mini mini--danger" data-del="programs.'+i+'">Xoá kỳ này</button></div>'+
     '</div></details>';
 
   return ''+
@@ -2200,8 +2065,7 @@ function panelHTML(){
     Object.keys(imgLabels).map(k=>
       '<label>'+imgLabels[k]+'<input type="file" accept="image/*" data-img="'+k+'"></label>'+
       '<div style="font-size:var(--t-xs);color:var(--muted);margin:-.4rem 0 .3rem">'+esc(IM[k]||"chưa có ảnh")+'</div>').join(""))+
-  sec("Video và bản đồ",
-    CFIELD("Video gallery (link YouTube hoặc .mp4)","videos.galleryHighlight")+
+  sec("Bản đồ",
     CFIELD("Google Maps (giá trị trong src)","mapEmbed"))+
   sec("Các kỳ thực tập",
     PROGRAMS.map(progFields).join("")+
@@ -2211,7 +2075,8 @@ function panelHTML(){
       F("Họ tên",'data-arr="people.'+i+'.name"',x.name)+
       F("Lĩnh vực",'data-arr="people.'+i+'.field"',x.field)+
       F("Email",'data-arr="people.'+i+'.mail"',x.mail)+
-      '<div class="row"><button class="mini mini--danger" data-del="people.'+i+'">Xoá</button></div></div>').join("")+
+      '<div class="row"><button class="mini" data-dup="people.'+i+'">Nhân bản</button>'+
+      '<button class="mini mini--danger" data-del="people.'+i+'">Xoá</button></div></div>').join("")+
     '<div class="row"><button class="mini" data-add="people">+ Thêm người</button></div>')+
   sec("Cảm nhận sinh viên",
     TESTIMONIALS.map((x,i)=>'<div class="item">'+
@@ -2219,7 +2084,8 @@ function panelHTML(){
       F("Trường, quốc gia",'data-arr="testimonials.'+i+'.from"',x.from)+
       F("Kỳ tham gia",'data-arr="testimonials.'+i+'.cohort"',x.cohort)+
       F("Nội dung",'data-arr="testimonials.'+i+'.text"',x.text,"area")+
-      '<div class="row"><button class="mini mini--danger" data-del="testimonials.'+i+'">Xoá</button></div></div>').join("")+
+      '<div class="row"><button class="mini" data-dup="testimonials.'+i+'">Nhân bản</button>'+
+      '<button class="mini mini--danger" data-del="testimonials.'+i+'">Xoá</button></div></div>').join("")+
     '<div class="row"><button class="mini" data-add="testimonials">+ Thêm cảm nhận</button></div>')+
   sec("Câu trả lời FAQ ("+lang.toUpperCase()+")",
     '<div class="ed__note">Mỗi ngôn ngữ có câu trả lời riêng. Đổi ngôn ngữ ở thanh trên cùng của trang rồi quay lại đây để nhập bản dịch.</div>'+
@@ -2253,8 +2119,15 @@ function initEditor(){
   panel.addEventListener("input", onField);
   panel.addEventListener("change", onField);
   panel.addEventListener("click", e=>{
-    const add = e.target.closest("[data-add]"), del = e.target.closest("[data-del]");
+    const add = e.target.closest("[data-add]"), del = e.target.closest("[data-del]"),
+          dup = e.target.closest("[data-dup]");
     if(add){ e.preventDefault(); addItem(add.dataset.add); }
+    if(dup){ e.preventDefault();
+      const [n,i] = dup.dataset.dup.split("."); const copy = JSON.parse(JSON.stringify(ARRS[n][+i]));
+      if(copy.id) copy.id = copy.id + "-copy-" + Date.now().toString().slice(-4);
+      if(copy.name) copy.name = copy.name + " (bản sao)";
+      if(copy.archived) copy.archived = false;
+      ARRS[n].splice(+i+1, 0, copy); drawPanel(); saveDraft(); queueRender(); }
     if(del){ e.preventDefault();
       const [n,i] = del.dataset.del.split("."); ARRS[n].splice(+i,1); drawPanel(); queueRender(); }
   });

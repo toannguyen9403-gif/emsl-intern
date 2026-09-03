@@ -492,6 +492,11 @@ body.ed-on{padding-right:0}
   border-radius:999px;padding:.8rem 1.2rem;font:700 var(--t-sm)/1 var(--body);cursor:pointer;box-shadow:var(--shadow)}
 [data-live="on"] [data-i18n],[data-live="on"] [data-bind]{outline:1px dashed rgba(31,82,200,.45);outline-offset:2px;border-radius:2px}
 [data-live="on"] [data-i18n]:focus,[data-live="on"] [data-bind]:focus{outline:2px solid var(--cobalt);background:#FFFDF3}
+.ed-block{position:relative}
+.ed-jump{position:absolute;top:8px;right:8px;z-index:8;background:var(--cobalt);color:#fff;border:0;
+  border-radius:999px;padding:.35rem .7rem;font:700 .72rem/1 var(--body);cursor:pointer;box-shadow:var(--shadow)}
+.ed-jump:hover{background:var(--cobalt-700)}
+.ed-hit{outline:3px solid var(--apply) !important;outline-offset:3px;border-radius:4px}
 .ed-drop{position:absolute;inset:0;z-index:5;background:rgba(31,82,200,.12);border:2px dashed var(--cobalt);
   display:grid;place-items:center;font:700 var(--t-xs)/1.3 var(--body);color:var(--cobalt);text-align:center;padding:.5rem}
 @media print{
@@ -606,7 +611,7 @@ body.ed-on{padding-right:0}
 
   <div class="wrap hero__grid">
     <div>
-      <p class="hero__badge"><span class="dot"></span><span id="heroBadge">[Spring/Summer 20XX Applications Now Open]</span></p>
+      <p class="hero__badge"><span class="dot"></span><span id="heroBadge">Summer 2027 · [Application Status]</span></p>
       <h1 data-i18n="heroTitle">EMSLab International Research Internship</h1>
       <p class="hero__tag" data-i18n="heroTag">Explore Physics. Experience Research. Connect Globally.</p>
       <p class="hero__lede" data-i18n="heroLede">A six-week research internship hosted by EMSLab, Department of Physics, Soongsil University.</p>
@@ -654,7 +659,7 @@ body.ed-on{padding-right:0}
   <div class="wrap">
     <div class="sec-head">
       <div class="rule" aria-hidden="true"></div>
-      <h2 id="upcomingTitle">[Spring/Summer 20XX Research Internship]</h2>
+      <h2 id="upcomingTitle">Summer 2027 Research Internship</h2>
       <p data-i18n="upcomingDeck">Applications for the next cohort are handled by the EMSLab program office. Key dates and requirements are listed below.</p>
     </div>
 
@@ -674,7 +679,7 @@ body.ed-on{padding-right:0}
         </div>
 
         <ul class="factlist">
-          <li><span class="k" data-i18n="fProgram">Program</span><span class="v" data-bind="upcoming.program">[Spring/Summer 20XX Research Internship]</span></li>
+          <li><span class="k" data-i18n="fProgram">Program</span><span class="v" data-bind="upcoming.program">Summer 2027 Research Internship</span></li>
           <li><span class="k" data-i18n="fDates">Dates</span><span class="v" data-bind="upcoming.dates">[Start Date] – [End Date]</span></li>
           <li><span class="k" data-i18n="fDuration">Duration</span><span class="v" data-i18n="approxSix">Approximately 6 weeks</span></li>
           <li><span class="k" data-i18n="fVenue">Location</span><span class="v" data-bind="upcoming.venue">EMSLab, Department of Physics, Soongsil University, Seoul</span></li>
@@ -713,7 +718,7 @@ body.ed-on{padding-right:0}
     <div class="sec-head">
       <div class="rule" aria-hidden="true"></div>
       <h2 data-i18n="railTitle">Program timeline</h2>
-      <p data-i18n="railDeck">Two cohorts run each year, in spring and in summer. Select a cohort to open its report, photographs and results.</p>
+      <p data-i18n="railDeck">The internship runs each summer. Select a cohort to open its report, photographs and results.</p>
     </div>
     <div class="filters" role="group" aria-label="Filter cohorts">
       <button type="button" data-f="all" aria-pressed="true" data-i18n="fAll">All Programs</button>
@@ -730,7 +735,7 @@ body.ed-on{padding-right:0}
     <div class="sec-head">
       <div class="rule" aria-hidden="true"></div>
       <h2 data-i18n="ovTitle">Program overview</h2>
-      <p data-i18n="ovDeck">EMSLab hosts the internship twice a year, in spring and in summer. Each cohort spends about six weeks inside a working solid-state physics laboratory, on a defined research problem, with a graduate mentor.</p>
+      <p data-i18n="ovDeck">EMSLab hosts the internship each summer. Each cohort spends about six weeks inside a working solid-state physics laboratory, on a defined research problem, with a graduate mentor.</p>
     </div>
     <div class="grid-4" id="values"></div>
     <p class="note" data-i18n="ovNote">The internship is a research placement, not a lecture course. Participants join an active project and are expected to produce and present their own data.</p>
@@ -977,7 +982,7 @@ body.ed-on{padding-right:0}
       <h2 data-i18n="ctaTitle">Ready to begin your research journey?</h2>
       <p style="color:#C3D4E8;max-width:56ch" data-i18n="ctaBody">Join an international community of students and researchers at EMSLab, Soongsil University.</p>
       <div class="cta__meta">
-        <div><span data-i18n="ctaCohort">Now recruiting</span><b data-bind="cohortLabel">[Spring/Summer 20XX]</b></div>
+        <div><span data-i18n="ctaCohort">Now recruiting</span><b data-bind="cohortLabel">Summer 2027</b></div>
         <div><span data-i18n="ctaDeadline">Application deadline</span><b data-bind="deadlineText">[Deadline]</b></div>
       </div>
       <div class="btn-row">
@@ -1251,17 +1256,17 @@ const PROGRAMS = [
     topic:"[Research Topic]", activities:"[Main Activities]", outcomes:"[Results and Achievements]",
     quote:"[Insert Student Testimonial]", quoteBy:"[Student Name] — [University, Country]",
     image:"", video:"", story:"" },
-  { id:"summer-2027", season:"summer", year:2027, state:"upcoming", archived:false,
+  { id:"summer-2027", season:"summer", year:2027, state:"open", archived:false,
     name:"Summer 2027 Research Internship", dates:"[Start Date – End Date]",
     participants:"[Number of Participants]", topic:"[Research Topic]", image:"" }
 ];
 
 
 const TESTIMONIALS = [
-  { name:"[Student Name]", from:"[University and Country]", cohort:"[Spring/Summer 20XX Participant]", text:"[Insert Student Testimonial]", photo:"" },
-  { name:"[Student Name]", from:"[University and Country]", cohort:"[Spring/Summer 20XX Participant]", text:"[Insert Student Testimonial]", photo:"" },
-  { name:"[Student Name]", from:"[University and Country]", cohort:"[Spring/Summer 20XX Participant]", text:"[Insert Student Testimonial]", photo:"" },
-  { name:"[Student Name]", from:"[University and Country]", cohort:"[Spring/Summer 20XX Participant]", text:"[Insert Student Testimonial]", photo:"" }
+  { name:"[Student Name]", from:"[University and Country]", cohort:"[Summer 20XX Participant]", text:"[Insert Student Testimonial]", photo:"" },
+  { name:"[Student Name]", from:"[University and Country]", cohort:"[Summer 20XX Participant]", text:"[Insert Student Testimonial]", photo:"" },
+  { name:"[Student Name]", from:"[University and Country]", cohort:"[Summer 20XX Participant]", text:"[Insert Student Testimonial]", photo:"" },
+  { name:"[Student Name]", from:"[University and Country]", cohort:"[Summer 20XX Participant]", text:"[Insert Student Testimonial]", photo:"" }
 ];
 
 const PEOPLE = [
@@ -1325,7 +1330,6 @@ const I18N = {
 en:{
 skip:"Skip to main content", brandSub:"Department of Physics & IIBS · Soongsil University",
 navHome:"Home", navPrograms:"Programs", navUpcoming:"Upcoming Program", navTimeline:"Program Timeline",
-navSpring:"Spring Internship",
 navSummer:"Summer Internship", navPast:"Past Programs", dropNotePast:"New cohorts are added in the PROGRAMS list in the script.",
 navDetails:"Program Details", navOverview:"Overview", navResearch:"Research Topics", navSchedule:"Schedule",
 navEligibility:"Eligibility", navApplication:"Application", navFaq:"FAQ", navAbout:"About EMSLab",
@@ -1344,14 +1348,14 @@ fDeadline:"Application deadline", fEligible:"Eligible students", fFormat:"Format
 fLanguage:"Working language", viewDetails:"View Program Details",
 bannerNote:"Use a wide photograph of the laboratory, an instrument in operation, or the previous cohort at work.",
 railTitle:"Program timeline",
-railDeck:"Two cohorts run each year, in spring and in summer. Select a cohort to open its report, photographs and results.",
-fAll:"All Programs", fSpring:"Spring", fSummer:"Summer", fUpcoming:"Upcoming", fCompleted:"Completed",
+railDeck:"The internship runs each summer. Select a cohort to open its report, photographs and results.",
+fAll:"All Programs", fSummer:"Summer", fUpcoming:"Upcoming", fCompleted:"Completed",
 stCompleted:"Completed", stOpen:"Applications Open", stUpcoming:"Upcoming", stPlanned:"Planned",
 viewProgram:"View Program", viewStory:"View Full Story",
 lDates:"Dates", lParticipants:"Participants", lTopic:"Research topic", lCountries:"Universities and countries",
 lActivities:"Main activities", lOutcomes:"Results", lGallery:"Cohort gallery",
 ovTitle:"Program overview",
-ovDeck:"EMSLab hosts the internship twice a year, in spring and in summer. Each cohort spends about six weeks inside a working solid-state physics laboratory, on a defined research problem, with a graduate mentor.",
+ovDeck:"EMSLab hosts the internship each summer. Each cohort spends about six weeks inside a working solid-state physics laboratory, on a defined research problem, with a graduate mentor.",
 ovNote:"The internship is a research placement, not a lecture course. Participants join an active project and are expected to produce and present their own data.",
 raTitle:"Research areas",
 raDeck:"Internship topics are assigned from the laboratory's active research lines. Confirm the topic list for your cohort with the program coordinator before applying.",
@@ -1413,7 +1417,6 @@ metaDesc:"A six-week international research internship in solid-state and lumine
 vi:{
 skip:"Bỏ qua tới nội dung chính", brandSub:"Khoa Vật lý & IIBS · Đại học Soongsil",
 navHome:"Trang chủ", navPrograms:"Chương trình", navUpcoming:"Kỳ sắp mở", navTimeline:"Dòng thời gian",
-navSpring:"Thực tập mùa xuân",
 navSummer:"Thực tập mùa hè", navPast:"Các kỳ đã diễn ra", dropNotePast:"Thêm kỳ mới trong danh sách PROGRAMS ở phần script.",
 navDetails:"Thông tin chương trình", navOverview:"Tổng quan", navResearch:"Chủ đề nghiên cứu", navSchedule:"Lịch trình",
 navEligibility:"Điều kiện", navApplication:"Hồ sơ đăng ký", navFaq:"Câu hỏi thường gặp", navAbout:"Giới thiệu EMSLab",
@@ -1432,14 +1435,14 @@ fDeadline:"Hạn nộp hồ sơ", fEligible:"Đối tượng", fFormat:"Hình th
 fLanguage:"Ngôn ngữ làm việc", viewDetails:"Xem thông tin chương trình",
 bannerNote:"Nên dùng ảnh ngang chụp phòng thí nghiệm, thiết bị đang vận hành hoặc kỳ thực tập trước.",
 railTitle:"Dòng thời gian chương trình",
-railDeck:"Mỗi năm có hai kỳ, mùa xuân và mùa hè. Chọn một kỳ để xem báo cáo, hình ảnh và kết quả.",
-fAll:"Tất cả", fSpring:"Mùa xuân", fSummer:"Mùa hè", fUpcoming:"Sắp diễn ra", fCompleted:"Đã hoàn thành",
+railDeck:"Chương trình tổ chức vào mùa hè hằng năm. Chọn một kỳ để xem báo cáo, hình ảnh và kết quả.",
+fAll:"Tất cả", fSummer:"Mùa hè", fUpcoming:"Sắp diễn ra", fCompleted:"Đã hoàn thành",
 stCompleted:"Đã hoàn thành", stOpen:"Đang nhận hồ sơ", stUpcoming:"Sắp diễn ra", stPlanned:"Dự kiến",
 viewProgram:"Xem kỳ này", viewStory:"Xem toàn bộ",
 lDates:"Thời gian", lParticipants:"Số người tham gia", lTopic:"Chủ đề nghiên cứu", lCountries:"Trường và quốc gia",
 lActivities:"Hoạt động chính", lOutcomes:"Kết quả", lGallery:"Hình ảnh của kỳ",
 ovTitle:"Tổng quan chương trình",
-ovDeck:"EMSLab tổ chức chương trình hai lần mỗi năm, vào mùa xuân và mùa hè. Mỗi kỳ kéo dài khoảng sáu tuần trong một phòng thí nghiệm vật lý chất rắn đang hoạt động, với một đề tài cụ thể và một người hướng dẫn là học viên sau đại học.",
+ovDeck:"EMSLab tổ chức chương trình vào mùa hè hằng năm. Mỗi kỳ kéo dài khoảng sáu tuần trong một phòng thí nghiệm vật lý chất rắn đang hoạt động, với một đề tài cụ thể và một người hướng dẫn là học viên sau đại học.",
 ovNote:"Đây là chương trình nghiên cứu, không phải khóa học lý thuyết. Người tham gia làm việc trong một đề tài thực tế và phải tự thu thập, trình bày dữ liệu của mình.",
 raTitle:"Lĩnh vực nghiên cứu",
 raDeck:"Đề tài thực tập được phân công từ các hướng nghiên cứu đang triển khai của phòng thí nghiệm. Hãy xác nhận danh mục đề tài của kỳ với điều phối viên trước khi đăng ký.",
@@ -1501,7 +1504,6 @@ metaDesc:"Chương trình thực tập nghiên cứu quốc tế sáu tuần v�
 ko:{
 skip:"본문으로 건너뛰기", brandSub:"물리학과 & IIBS · 숭실대학교",
 navHome:"홈", navPrograms:"프로그램", navUpcoming:"모집 예정 프로그램", navTimeline:"프로그램 연혁",
-navSpring:"봄학기 인턴십",
 navSummer:"여름학기 인턴십", navPast:"지난 프로그램", dropNotePast:"새 기수는 스크립트의 PROGRAMS 목록에 추가합니다.",
 navDetails:"프로그램 안내", navOverview:"개요", navResearch:"연구 주제", navSchedule:"일정",
 navEligibility:"지원 자격", navApplication:"지원 서류", navFaq:"자주 묻는 질문", navAbout:"EMSLab 소개",
@@ -1520,14 +1522,14 @@ fDeadline:"지원 마감", fEligible:"지원 대상", fFormat:"운영 방식", f
 fLanguage:"사용 언어", viewDetails:"프로그램 안내 보기",
 bannerNote:"연구실 전경, 장비 운용 장면, 이전 기수의 활동 사진 등 가로형 이미지를 권장합니다.",
 railTitle:"프로그램 연혁",
-railDeck:"매년 봄과 여름 두 차례 운영됩니다. 기수를 선택하면 해당 기수의 기록과 사진, 결과를 볼 수 있습니다.",
-fAll:"전체", fSpring:"봄학기", fSummer:"여름학기", fUpcoming:"예정", fCompleted:"종료",
+railDeck:"매년 여름에 운영됩니다. 기수를 선택하면 해당 기수의 기록과 사진, 결과를 볼 수 있습니다.",
+fAll:"전체", fSummer:"여름학기", fUpcoming:"예정", fCompleted:"종료",
 stCompleted:"종료", stOpen:"모집 중", stUpcoming:"예정", stPlanned:"계획",
 viewProgram:"기수 보기", viewStory:"전체 보기",
 lDates:"기간", lParticipants:"참가 인원", lTopic:"연구 주제", lCountries:"참가 대학 및 국가",
 lActivities:"주요 활동", lOutcomes:"성과", lGallery:"기수 갤러리",
 ovTitle:"프로그램 개요",
-ovDeck:"EMSLab은 매년 봄과 여름 두 차례 인턴십을 운영합니다. 각 기수는 약 6주 동안 고체물리 연구실에서 지정된 연구 주제를 수행하며, 대학원생 멘토와 함께 일합니다.",
+ovDeck:"EMSLab은 매년 여름 인턴십을 운영합니다. 각 기수는 약 6주 동안 고체물리 연구실에서 지정된 연구 주제를 수행하며, 대학원생 멘토와 함께 일합니다.",
 ovNote:"본 프로그램은 강의가 아니라 연구 참여 과정입니다. 참가자는 진행 중인 과제에 합류하여 직접 데이터를 얻고 발표합니다.",
 raTitle:"연구 분야",
 raDeck:"인턴십 주제는 연구실에서 진행 중인 연구 분야에서 배정됩니다. 지원 전 해당 기수의 주제 목록을 프로그램 담당자에게 확인하십시오.",
@@ -1671,7 +1673,8 @@ function renderLists(){
 const stateLabel = s => ({completed:"stCompleted",open:"stOpen",upcoming:"stUpcoming",planned:"stPlanned"})[s];
 function renderRail(){
   $("#rail").innerHTML = PROGRAMS.map(pr=>
-    '<article class="cohort" data-state="'+pr.state+'" data-season="'+pr.season+'" data-id="'+pr.id+'">'+
+    '<article class="cohort" data-state="'+pr.state+'" data-season="'+pr.season+'" data-id="'+pr.id+'"'+
+      ' data-edit-ref="programs.'+PROGRAMS.indexOf(pr)+'">'+
       '<div class="cohort__inner">'+
         frame({ratio:"16x9",label:"[Insert Program Photo]",src:pr.image})+
         '<div class="cohort__body">'+
@@ -1699,7 +1702,7 @@ function applyFilter(f){
 /* ---------- archive ---------- */
 function renderArchive(){
   $("#archive-list").innerHTML = PROGRAMS.filter(x=>x.archived).map(pr=>
-    '<article class="archive" id="archive-'+pr.id+'">'+
+    '<article class="archive" id="archive-'+pr.id+'" data-edit-ref="programs.'+PROGRAMS.indexOf(pr)+'">'+
       '<div class="archive__head"><div><span class="tag tag--completed">'+t("stCompleted")+'</span>'+
         '<h3 style="margin-top:.4rem">'+pr.name+'</h3></div>'+
         (pr.story ? '<a class="btn btn--ghost btn--sm" href="'+pr.story+'" target="_blank" rel="noopener">'+t("viewStory")+'</a>' : '')+'</div>'+
@@ -1730,15 +1733,15 @@ function renderStats(){
     '<div class="stat"><div class="stat__num">'+s.n+'</div><div class="stat__lab">'+t(s.k)+'</div></div>').join("");
 }
 function renderTestimonials(){
-  $("#track").innerHTML = TESTIMONIALS.map(x=>
-    '<article class="tcard">'+frame({ratio:"circle",label:"[Photo]",src:x.photo})+
+  $("#track").innerHTML = TESTIMONIALS.map((x,i)=>
+    '<article class="tcard" data-edit-ref="testimonials.'+i+'">'+frame({ratio:"circle",label:"[Photo]",src:x.photo})+
       '<blockquote>'+x.text+'</blockquote>'+
       '<div class="who"><b>'+x.name+'</b>'+x.from+'<br>'+x.cohort+'</div></article>').join("");
   hydrateFrames($("#track"));
 }
 function renderPeople(){
-  $("#people-grid").innerHTML = PEOPLE.map(x=>
-    '<article class="person">'+frame({ratio:"portrait",label:"[Insert Profile Photo]",hint:"3:4 · 900 × 1200 px",src:x.photo})+
+  $("#people-grid").innerHTML = PEOPLE.map((x,i)=>
+    '<article class="person" data-edit-ref="people.'+i+'">'+frame({ratio:"portrait",label:"[Insert Profile Photo]",hint:"3:4 · 900 × 1200 px",src:x.photo})+
       '<div class="person__body"><span class="role">'+t(x.roleKey)+'</span><h3>'+x.name+'</h3>'+
       '<span class="field">'+x.field+'</span><span class="mail">'+x.mail+'</span>'+
       '<a class="btn btn--ghost btn--sm" href="#" data-link="profile">'+t("viewProfile")+'</a></div></article>').join("");
@@ -1834,6 +1837,7 @@ function renderAll(){
   renderTestimonials(); renderPeople(); renderFaq(); renderGalleries(); applyConfig();
   applyFilter($(".filters button[aria-pressed='true']")?.dataset.f || "all");
   observeReveal();
+  if(typeof ED !== "undefined" && ED.active) markEditable();
 }
 
 /* ---------- navigation ---------- */
@@ -1971,7 +1975,7 @@ function observeReveal(){
 /* ============================================================================
    5. CHẾ ĐỘ CHỈNH SỬA — chỉ chạy khi địa chỉ có ?edit
    ============================================================================ */
-const ED = { previews:{}, files:{}, live:false, opened:new Set() };
+const ED = { previews:{}, files:{}, live:false, active:false, opened:new Set() };
 const TEXT = { en:{}, vi:{}, ko:{} };
 const ARRS = { programs:PROGRAMS, people:PEOPLE, testimonials:TESTIMONIALS };
 const CFG_KEYS = ["cohortLabel","cohortBadge","cohortHeading","deadlineText","applicationDeadline",
@@ -2013,10 +2017,6 @@ function panelHTML(){
       '<label>Trạng thái<select data-arr="programs.'+i+'.state">'+
         ["completed:Đã hoàn thành","open:Đang nhận hồ sơ","upcoming:Sắp diễn ra","planned:Dự kiến"]
         .map(o=>{const[v,t]=o.split(":");return '<option value="'+v+'"'+(pr.state===v?" selected":"")+'>'+t+'</option>';}).join("")+
-      '</select></label>'+
-      '<label>Mùa<select data-arr="programs.'+i+'.season">'+
-        ["spring:Mùa xuân","summer:Mùa hè"].map(o=>{const[v,t]=o.split(":");
-          return '<option value="'+v+'"'+(pr.season===v?" selected":"")+'>'+t+'</option>';}).join("")+
       '</select></label>'+
       '<label>Hiện trong mục lưu trữ<select data-arr="programs.'+i+'.archived">'+
         '<option value="">Không</option><option value="1"'+(pr.archived?" selected":"")+'>Có</option></select></label>'+
@@ -2112,6 +2112,7 @@ function initEditor(){
   const fab = document.createElement("button");
   fab.className = "ed-fab"; fab.id = "edFab"; fab.textContent = "Mở bảng chỉnh sửa"; fab.hidden = true;
   document.body.appendChild(fab);
+  ED.active = true;
   drawPanel();
   renderAll();
 
@@ -2141,6 +2142,38 @@ function initEditor(){
   enableDrops();
   status("Sẵn sàng. Sửa xong nhớ bấm “Tải file content.json”.");
 }
+const SEC_OF = { programs:"Các kỳ thực tập", people:"Nhân sự", testimonials:"Cảm nhận sinh viên" };
+/* Gắn nút ✎ lên từng khối trên trang để bấm là nhảy thẳng tới ô nhập tương ứng */
+function markEditable(){
+  $$("[data-edit-ref]").forEach(el=>{
+    el.classList.add("ed-block");
+    if($(".ed-jump", el)) return;
+    const btn = document.createElement("button");
+    btn.className = "ed-jump"; btn.type = "button";
+    btn.textContent = "✎ Sửa";
+    btn.dataset.jump = el.dataset.editRef;
+    el.appendChild(btn);
+  });
+}
+function jumpTo(ref){
+  const [n,i] = ref.split(".");
+  ED.opened.add(SEC_OF[n]); drawPanel();
+  const box = $("#ed"), fab = $("#edFab");
+  if(box) box.classList.add("is-open"); if(fab) fab.hidden = true;
+  const inp = $('#edBody [data-arr^="'+n+'.'+i+'."]');
+  if(!inp) return;
+  let d = inp.closest("details");
+  while(d){ d.open = true; d = d.parentElement && d.parentElement.closest("details"); }
+  inp.scrollIntoView({block:"center"});
+  inp.focus();
+  inp.classList.add("ed-hit"); setTimeout(()=>inp.classList.remove("ed-hit"), 1600);
+  status("Đang sửa khối vừa chọn. Thay đổi hiện ngay trên trang.");
+}
+document.addEventListener("click", e=>{
+  const j = e.target.closest(".ed-jump");
+  if(j){ e.preventDefault(); e.stopPropagation(); jumpTo(j.dataset.jump); }
+}, true);
+
 function drawPanel(){
   const body = $("#edBody"); if(!body) return;
   const sc = body.scrollTop;
@@ -2177,12 +2210,12 @@ function onField(e){
   saveDraft(); queueRender();
 }
 function addItem(name){
-  if(name === "programs") PROGRAMS.push({ id:"ky-"+Date.now(), season:"spring", year:new Date().getFullYear(),
+  if(name === "programs") PROGRAMS.push({ id:"ky-"+Date.now(), season:"summer", year:new Date().getFullYear(),
     state:"planned", archived:false, name:"[Tên kỳ mới]", dates:"[Start Date – End Date]",
     participants:"[XX]", topic:"[Research Topic]", image:"" });
   if(name === "people") PEOPLE.push({ name:"[Họ tên]", roleKey:"roleMentor", field:"[Research Field]", mail:"[Email]", photo:"" });
   if(name === "testimonials") TESTIMONIALS.push({ name:"[Student Name]", from:"[University and Country]",
-    cohort:"[Spring/Summer 20XX Participant]", text:"[Insert Student Testimonial]", photo:"" });
+    cohort:"[Summer 20XX Participant]", text:"[Insert Student Testimonial]", photo:"" });
   drawPanel(); saveDraft(); queueRender();
 }
 let rt;

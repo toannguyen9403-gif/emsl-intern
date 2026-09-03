@@ -473,6 +473,10 @@ body.ed-on{padding-right:0}
 .ed__switch{display:flex;align-items:center;gap:.55rem;font-size:var(--t-sm);color:var(--ink);font-weight:600;cursor:pointer}
 .ed__switch input{width:auto}
 .ed__switch small{display:block;font-weight:400;color:var(--muted);font-size:var(--t-xs);margin-top:.15rem}
+.ed__lang{display:flex;align-items:center;gap:.4rem;margin-top:.7rem;font-size:var(--t-xs);color:var(--muted)}
+.ed__lang button{border:1px solid var(--line);background:#fff;border-radius:var(--r-sm);padding:.3rem .6rem;
+  font:700 var(--t-xs)/1 var(--body);color:var(--navy-800);cursor:pointer}
+.ed__lang button[aria-pressed="true"]{background:var(--navy-800);border-color:var(--navy-800);color:#fff}
 .ed__note{background:var(--data-soft);border:1px solid #B6E4EA;border-radius:var(--r-sm);padding:.7rem .8rem;
   margin:.9rem 0;color:#0C5A66;font-size:var(--t-xs);line-height:1.5}
 .ed details{border-bottom:1px solid var(--line)}
@@ -681,22 +685,12 @@ body.ed-on{padding-right:0}
             <div class="cd__unit"><div class="cd__num" data-cd="s">--</div><div class="cd__lab" data-i18n="seconds">Seconds</div></div>
           </div>
           <div class="deadline__meta">
-            <span data-i18n="untilDeadline">Remaining until the application deadline</span>
-            <b id="deadlineText">[Application Deadline]</b>
+            <span id="cdLabel" data-i18n="untilDeadline">Remaining until the application deadline</span>
+            <b id="cdTarget">[Application Deadline]</b>
           </div>
         </div>
 
-        <ul class="factlist">
-          <li><span class="k" data-i18n="fProgram">Program</span><span class="v" data-bind="upcoming.program">Summer 2027 Research Internship</span></li>
-          <li><span class="k" data-i18n="fDates">Dates</span><span class="v" data-bind="upcoming.dates">[Start Date] – [End Date]</span></li>
-          <li><span class="k" data-i18n="fDuration">Duration</span><span class="v" data-i18n="approxSix">Approximately 6 weeks</span></li>
-          <li><span class="k" data-i18n="fVenue">Location</span><span class="v" data-bind="upcoming.venue">EMSLab, Department of Physics, Soongsil University, Seoul</span></li>
-          <li><span class="k" data-i18n="fDeadline">Application deadline</span><span class="v" data-bind="deadlineText">[Application Deadline]</span></li>
-          <li><span class="k" data-i18n="fEligible">Eligible students</span><span class="v" data-bind="upcoming.eligible">[Eligible Students]</span></li>
-          <li><span class="k" data-i18n="fFormat">Format</span><span class="v" data-bind="upcoming.format">[On-site / Hybrid]</span></li>
-          <li><span class="k" data-i18n="fSeats">Participants</span><span class="v" data-bind="upcoming.seats">[Number of Participants]</span></li>
-          <li><span class="k" data-i18n="fLanguage">Working language</span><span class="v" data-bind="upcoming.language">[Language of Instruction]</span></li>
-        </ul>
+        <ul class="factlist" id="factlist"></ul>
 
         <div class="btn-row" style="margin-top:1.75rem">
           <a class="btn btn--apply" href="#apply" data-i18n="applyNow">Apply Now</a>
@@ -1022,7 +1016,7 @@ body.ed-on{padding-right:0}
           <dt data-i18n="coDept">Department</dt><dd>Department of Physics &amp; IIBS</dd>
           <dt data-i18n="coUniv">University</dt><dd>Soongsil University</dd>
           <dt data-i18n="coAddr">Address</dt><dd><span data-bind="contact.room">Baird Hall 01433</span><br>Sangdo-ro 369, Seoul 06978, Republic of Korea</dd>
-          <dt data-i18n="coEmail">Email</dt><dd data-bind="contact.email">[Program Email]</dd>
+          <dt data-i18n="coEmail">Email</dt><dd data-bind="contact.email">ylee(at)ssu.ac.kr</dd>
           <dt data-i18n="coPhone">Telephone</dt><dd data-bind="contact.phone">[Phone Number]</dd>
           <dt data-i18n="coWeb">Website</dt><dd data-bind="contact.web">[Official Website]</dd>
           <dt data-i18n="coHours">Office hours</dt><dd data-bind="contact.hours">[Office Hours]</dd>
@@ -1107,6 +1101,10 @@ const CONFIG = {
      Leave empty ("") and the counter shows "--" instead of a countdown.      */
   applicationDeadline: "",
 
+  /* Ngày mở đơn. Nếu ngày này còn ở tương lai, đồng hồ đếm ngược tới đây;
+     qua ngày đó rồi thì tự chuyển sang đếm tới hạn nộp.                       */
+  applicationOpenDate: "",
+
   /* Text shown in the hero badge, the featured heading and the CTA block.    */
   cohortLabel:   "Summer 2027",
   cohortBadge:   "Summer 2027 · [Application Status]",
@@ -1135,8 +1133,9 @@ const CONFIG = {
     program:"Summer 2027 Research Internship",
     dates:"[Start Date] – [End Date]",
     venue:"EMSLab, Department of Physics, Soongsil University, Seoul",
-    eligible:"[Eligible Students]",
-    format:"[On-site / Hybrid]",
+    open:"[Application Opens]",
+    eligible:"",
+    format:"",
     seats:"[Number of Participants]",
     language:"[Language of Instruction]"
   },
@@ -1355,6 +1354,7 @@ heroCaption:"Visible emission range, 400–700 nm — the working window of the 
 upcomingDeck:"Applications for the next cohort are handled by the EMSLab program office. Key dates and requirements are listed below.",
 days:"Days", hours:"Hours", minutes:"Minutes", seconds:"Seconds",
 untilDeadline:"Remaining until the application deadline",
+untilOpen:"Remaining until applications open", fOpens:"Application opens",
 fProgram:"Program", fDates:"Dates", fDuration:"Duration", approxSix:"Approximately 6 weeks", fVenue:"Location",
 fDeadline:"Application deadline", fEligible:"Eligible students", fFormat:"Format", fSeats:"Participants",
 fLanguage:"Working language", viewDetails:"View Program Details",
@@ -1442,6 +1442,7 @@ heroCaption:"Vùng phát xạ khả kiến 400–700 nm — dải làm việc c�
 upcomingDeck:"Việc tiếp nhận hồ sơ do văn phòng chương trình EMSLab phụ trách. Các mốc thời gian và yêu cầu chính được liệt kê dưới đây.",
 days:"Ngày", hours:"Giờ", minutes:"Phút", seconds:"Giây",
 untilDeadline:"Thời gian còn lại đến hạn nộp hồ sơ",
+untilOpen:"Thời gian còn lại đến ngày mở đơn", fOpens:"Ngày mở đơn",
 fProgram:"Chương trình", fDates:"Thời gian", fDuration:"Thời lượng", approxSix:"Khoảng 6 tuần", fVenue:"Địa điểm",
 fDeadline:"Hạn nộp hồ sơ", fEligible:"Đối tượng", fFormat:"Hình thức", fSeats:"Số lượng",
 fLanguage:"Ngôn ngữ làm việc", viewDetails:"Xem thông tin chương trình",
@@ -1529,6 +1530,7 @@ heroCaption:"가시광 발광 영역 400–700 nm — 본 연구실의 측정 �
 upcomingDeck:"다음 기수의 지원 접수는 EMSLab 프로그램 사무국이 담당합니다. 주요 일정과 요건은 아래와 같습니다.",
 days:"일", hours:"시간", minutes:"분", seconds:"초",
 untilDeadline:"지원 마감까지 남은 시간",
+untilOpen:"지원 접수 시작까지 남은 시간", fOpens:"지원 접수 시작",
 fProgram:"프로그램", fDates:"기간", fDuration:"운영 기간", approxSix:"약 6주", fVenue:"장소",
 fDeadline:"지원 마감", fEligible:"지원 대상", fFormat:"운영 방식", fSeats:"모집 인원",
 fLanguage:"사용 언어", viewDetails:"프로그램 안내 보기",
@@ -1776,7 +1778,7 @@ function renderGalleries(){
 function applyConfig(){
   $("#heroBadge").textContent      = CONFIG.cohortBadge;
   $("#upcomingTitle").textContent  = CONFIG.cohortHeading;
-  $("#deadlineText").textContent   = CONFIG.deadlineText;
+
   $("#year").textContent           = new Date().getFullYear();
   $$("[data-link]").forEach(a=>{
     const url = CONFIG.links[a.dataset.link];
@@ -1785,6 +1787,7 @@ function applyConfig(){
   });
   hydrateFrames();
   applyEmbeds();
+  renderFacts();
   applyBindings();
   applyLayout();
 }
@@ -1805,10 +1808,41 @@ function applyLayout(){
   if(L.bannerMin)  r.setProperty("--banner-min", L.bannerMin + "px");
   if(L.secScale)   r.setProperty("--sec-scale", L.secScale);
 }
+/* Các dòng của bảng thông tin kỳ sắp tới. Ô nào để trống thì dòng đó tự ẩn. */
+const FACTS = [
+  ["upcoming.program",  "fProgram"],
+  ["upcoming.dates",    "fDates"],
+  [null,                "fDuration", "approxSix"],
+  ["upcoming.venue",    "fVenue"],
+  ["upcoming.open",     "fOpens"],
+  ["deadlineText",      "fDeadline"],
+  ["upcoming.eligible", "fEligible"],
+  ["upcoming.format",   "fFormat"],
+  ["upcoming.seats",    "fSeats"],
+  ["upcoming.language", "fLanguage"]
+];
+function renderFacts(){
+  const box = $("#factlist"); if(!box) return;
+  box.innerHTML = FACTS.map(([path,k,fixed])=>{
+    const v = fixed ? t(fixed) : (dig(CONFIG, path) || "");
+    if(!String(v).trim()) return "";
+    return '<li><span class="k" data-i18n="'+k+'">'+t(k)+'</span>'+
+           '<span class="v"'+(path ? ' data-bind="'+path+'"' : '')+'>'+esc(v)+'</span></li>';
+  }).join("");
+}
 function applyBindings(){
   $$("[data-bind]").forEach(el=>{
     const v = dig(CONFIG, el.dataset.bind);
-    if(typeof v === "string") el.textContent = v;
+    if(typeof v !== "string") return;
+    el.textContent = v;
+    const empty = !v.trim();
+    const row = el.closest("tr, li[data-row]");
+    if(row) row.hidden = empty;
+    else if(el.tagName === "DD"){
+      el.hidden = empty;
+      const dt = el.previousElementSibling;
+      if(dt && dt.tagName === "DT") dt.hidden = empty;
+    }
   });
 }
 /* content.json là nơi lưu mọi thay đổi làm trong chế độ chỉnh sửa.
@@ -1844,8 +1878,14 @@ function applyEmbeds(){
 function startCountdown(){
   const box = $("#countdown"); if(!box) return;
   const set = (k,v)=> box.querySelector('[data-cd="'+k+'"]').textContent = v;
-  if(!CONFIG.applicationDeadline){ ["d","h","m","s"].forEach(k=>set(k,"--")); return; }
-  const end = new Date(CONFIG.applicationDeadline).getTime();
+  const openAt = CONFIG.applicationOpenDate ? new Date(CONFIG.applicationOpenDate).getTime() : NaN;
+  const toOpen = !isNaN(openAt) && openAt > Date.now();
+  const lab = $("#cdLabel"), tgt = $("#cdTarget");
+  if(lab) lab.dataset.i18n = toOpen ? "untilOpen" : "untilDeadline";
+  if(lab) lab.textContent = t(toOpen ? "untilOpen" : "untilDeadline");
+  if(tgt) tgt.textContent = toOpen ? (CONFIG.upcoming.open || "") : CONFIG.deadlineText;
+  if(!toOpen && !CONFIG.applicationDeadline){ ["d","h","m","s"].forEach(k=>set(k,"--")); return; }
+  const end = toOpen ? openAt : new Date(CONFIG.applicationDeadline).getTime();
   const run = ()=>{
     const gap = end - Date.now();
     if(isNaN(end) || gap <= 0){ ["d","h","m","s"].forEach(k=>set(k,"0")); return; }
@@ -2005,7 +2045,7 @@ const ED = { previews:{}, files:{}, live:false, active:false, opened:new Set() }
 const TEXT = { en:{}, vi:{}, ko:{} };
 const ARRS = { programs:PROGRAMS, people:PEOPLE, testimonials:TESTIMONIALS,
                topics:TOPICS, faq:FAQ, seoul:SEOUL };
-const CFG_KEYS = ["cohortLabel","cohortBadge","cohortHeading","deadlineText","applicationDeadline",
+const CFG_KEYS = ["cohortLabel","cohortBadge","cohortHeading","deadlineText","applicationDeadline","applicationOpenDate",
                   "links","images","stats","upcoming","eligibility","dates","contact","videos","mapEmbed","layout"];
 
 function safeName(n){
@@ -2060,11 +2100,14 @@ function panelHTML(){
 
   return ''+
   sec("Kỳ sắp tới",
+    '<div class="ed__note">Ô nào để trống thì dòng đó biến mất khỏi bảng thông tin và các dòng dưới tự nhích lên.</div>'+
     CFIELD("Dòng chữ trên hero","cohortBadge")+
     CFIELD("Tiêu đề mục nổi bật","cohortHeading")+
     CFIELD("Tên kỳ (ở khối cuối trang)","cohortLabel")+
     CFIELD("Hạn nộp (hiển thị)","deadlineText")+
     CFIELD("Hạn nộp (cho đồng hồ đếm ngược)","applicationDeadline","datetime-local")+
+    CFIELD("Ngày mở đơn (hiển thị)","upcoming.open")+
+    CFIELD("Ngày mở đơn (cho đồng hồ đếm ngược)","applicationOpenDate","datetime-local")+
     CFIELD("Tên chương trình","upcoming.program")+
     CFIELD("Thời gian","upcoming.dates")+
     CFIELD("Địa điểm","upcoming.venue")+
@@ -2146,6 +2189,15 @@ function panelHTML(){
       '<div class="row"><button class="mini" data-dup="seoul.'+i+'">Nhân bản</button>'+
       '<button class="mini mini--danger" data-del="seoul.'+i+'">Xoá</button></div></div>').join("")+
     '<div class="row"><button class="mini" data-add="seoul">+ Thêm khung ảnh</button></div>')+
+  sec("Dịch sang ngôn ngữ khác",
+    '<div class="ed__note">Ba bản ngôn ngữ tách riêng nhau nên phải nhập từng bản. Chỗ nào chưa dịch thì trang tự hiển thị bản tiếng Anh, không bao giờ để trống.</div>'+
+    '<label>Ngôn ngữ đích<select id="edTrLang">'+
+      '<option value="vi">Tiếng Việt</option><option value="ko">Tiếng Hàn</option></select></label>'+
+    '<div style="font-size:var(--t-sm)">Đang thiếu <b id="edTrCount">—</b> mục</div>'+
+    '<div class="row"><button class="mini" id="edTrFill">Điền tạm bằng bản EN</button>'+
+    '<button class="mini" id="edTrExport">Tải danh sách cần dịch</button></div>'+
+    F("Dán bản dịch đã có (JSON)",'id="edTrPaste" placeholder="{\"faq.0.q\": \"...\"}"',"","area")+
+    '<div class="row"><button class="mini" id="edTrApply">Áp dụng bản dịch</button></div>')+
   sec("Bố cục và kích thước",
     '<div class="ed__note">Các ô co giãn theo màn hình nên không kéo tay được; thay vào đó chỉnh bằng các thông số dưới đây, áp dụng đồng bộ cho cả máy tính lẫn điện thoại.</div>'+
     CFIELD("Độ rộng tối đa của trang (px)","layout.maxWidth","number")+
@@ -2168,7 +2220,11 @@ function initEditor(){
   box.innerHTML =
     '<div class="ed__top"><b>Chỉnh sửa nội dung</b><button id="edHide">Ẩn bảng</button></div>'+
     '<div class="ed__tools"><label class="ed__switch"><input type="checkbox" id="edLive" checked>'+
-      '<span>Sửa chữ trực tiếp trên trang<small>Bấm vào bất kỳ dòng chữ nào để gõ đè lên</small></span></label></div>'+
+      '<span>Sửa chữ trực tiếp trên trang<small>Bấm vào bất kỳ dòng chữ nào để gõ đè lên</small></span></label>'+
+      '<div class="ed__lang" id="edLangRow"><span>Đang xem bản:</span>'+
+        '<button type="button" data-edlang="en">EN</button>'+
+        '<button type="button" data-edlang="vi">VI</button>'+
+        '<button type="button" data-edlang="ko">KR</button></div></div>'+
     '<div class="ed__body" id="edBody"></div>'+
     '<div class="ed__foot">'+
       '<button class="btn btn--primary" id="edSave" style="justify-content:center">Tải file content.json</button>'+
@@ -2187,11 +2243,29 @@ function initEditor(){
 
   const panel = $("#edBody");
   panel.addEventListener("input", onField);
-  panel.addEventListener("change", onField);
+  panel.addEventListener("change", e=>{ if(e.target.id === "edTrLang") updateTrCount(); else onField(e); });
   panel.addEventListener("click", e=>{
     const add = e.target.closest("[data-add]"), del = e.target.closest("[data-del]"),
           dup = e.target.closest("[data-dup]");
     if(add){ e.preventDefault(); addItem(add.dataset.add); }
+    const id = e.target.id;
+    if(id === "edTrFill"){ e.preventDefault();
+      const l = trLang(), items = missingFor(l);
+      applyTranslations(l, Object.fromEntries(items));
+      status("Đã điền tạm " + items.length + " mục bằng bản tiếng Anh."); return; }
+    if(id === "edTrExport"){ e.preventDefault();
+      const l = trLang(), items = Object.fromEntries(missingFor(l));
+      if(!Object.keys(items).length){ status("Bản " + l.toUpperCase() + " đã dịch đủ."); return; }
+      dl("can-dich-" + l + ".json", new Blob([JSON.stringify(items, null, 2)], {type:"application/json"}));
+      status("Đã tải danh sách. Nhờ dịch rồi dán kết quả vào ô bên dưới."); return; }
+    if(id === "edTrApply"){ e.preventDefault();
+      const box = $("#edTrPaste");
+      try{
+        const obj = JSON.parse(box.value);
+        applyTranslations(trLang(), obj);
+        status("Đã áp dụng " + Object.keys(obj).length + " mục dịch.");
+      }catch(err){ status("Không đọc được nội dung dán vào — kiểm tra lại định dạng JSON."); }
+      return; }
     if(dup){ e.preventDefault();
       const [n,i] = dup.dataset.dup.split("."); const copy = JSON.parse(JSON.stringify(ARRS[n][+i]));
       if(copy.id) copy.id = copy.id + "-copy-" + Date.now().toString().slice(-4);
@@ -2204,6 +2278,13 @@ function initEditor(){
   $("#edHide").onclick = ()=>{ box.classList.remove("is-open"); fab.hidden = false; };
   fab.onclick = ()=>{ box.classList.add("is-open"); fab.hidden = true; };
   $("#edLive").onchange = e => setLive(e.target.checked);
+  $("#edLangRow").addEventListener("click", e=>{
+    const btn = e.target.closest("[data-edlang]"); if(!btn) return;
+    lang = btn.dataset.edlang; localStorage.setItem("emslab-lang", lang);
+    renderAll(); drawPanel(); markLangRow();
+    status("Đang xem bản " + lang.toUpperCase() + ". Nội dung nhập ở đây thuộc bản này.");
+  });
+  markLangRow();
   $("#edSave").onclick = exportJSON;
   $("#edImgs").onclick = downloadImages;
   $("#edReset").onclick = ()=>{ localStorage.removeItem("emslab-draft"); location.reload(); };
@@ -2249,11 +2330,51 @@ document.addEventListener("click", e=>{
   if(j){ e.preventDefault(); e.stopPropagation(); jumpTo(j.dataset.jump); }
 }, true);
 
+/* ---- hỗ trợ dịch: gom các mục chưa có bản dịch ---- */
+function missingFor(l){
+  const out = [];
+  TOPICS.forEach((x,i)=>{
+    if(!x.t[l]) out.push(["topics."+i+".t", x.t.en || ""]);
+    if(!(x.b[l] && x.b[l].length)) out.push(["topics."+i+".b", (x.b.en||[]).join("\n")]);
+  });
+  FAQ.forEach((q,i)=>{
+    if(!q[l]) out.push(["faq."+i+".q", q.en || ""]);
+    if(!(q.a && q.a[l])) out.push(["faq."+i+".a", (q.a && q.a.en) || ""]);
+  });
+  Object.keys(TEXT.en || {}).forEach(k=>{
+    if(!TEXT[l] || !TEXT[l][k]) out.push(["text."+k, TEXT.en[k]]);
+  });
+  return out.filter(x=>x[1]);
+}
+function applyTranslations(l, obj){
+  Object.entries(obj).forEach(([k,v])=>{
+    const q = k.split("."), i = +q[1];
+    if(q[0] === "topics" && TOPICS[i]){
+      if(q[2] === "t") TOPICS[i].t[l] = v;
+      else TOPICS[i].b[l] = String(v).split("\n").map(x=>x.trim()).filter(Boolean);
+    } else if(q[0] === "faq" && FAQ[i]){
+      if(q[2] === "q") FAQ[i][l] = v;
+      else { FAQ[i].a = FAQ[i].a || {}; FAQ[i].a[l] = v; }
+    } else if(q[0] === "text"){
+      const key = q.slice(1).join(".");
+      TEXT[l] = TEXT[l] || {}; TEXT[l][key] = v; I18N[l][key] = v;
+    }
+  });
+  saveDraft(); drawPanel(); queueRender();
+}
+function trLang(){ const el = $("#edTrLang"); return el ? el.value : "vi"; }
+function updateTrCount(){
+  const el = $("#edTrCount"); if(el) el.textContent = missingFor(trLang()).length;
+}
+function markLangRow(){
+  $$("#edLangRow [data-edlang]").forEach(b=> b.setAttribute("aria-pressed", String(b.dataset.edlang === lang)));
+}
 function drawPanel(){
   const body = $("#edBody"); if(!body) return;
   const sc = body.scrollTop;
   body.innerHTML = panelHTML();
   body.scrollTop = sc;
+  updateTrCount();
 }
 /* nhớ mục nào đang mở để lần vẽ lại không đóng hết */
 document.addEventListener("toggle", e=>{
@@ -2306,15 +2427,15 @@ function addItem(name){
   drawPanel(); saveDraft(); queueRender();
 }
 let rt;
-function queueRender(){ clearTimeout(rt); rt = setTimeout(()=>{ renderAll(); if(ED.live) setLive(true); }, 260); }
+function queueRender(){ clearTimeout(rt); rt = setTimeout(()=>{ renderAll(); startCountdown(); if(ED.live) setLive(true, true); markLangRow(); }, 260); }
 
 /* ---- sửa chữ trực tiếp trên trang ---- */
-function setLive(on){
+function setLive(on, quiet){
   ED.live = on; document.body.dataset.live = on ? "on" : "off";
   $$("main [data-i18n], main [data-bind], .foot [data-i18n]").forEach(el=>{
     el.contentEditable = on ? "true" : "false"; el.spellcheck = false;
   });
-  status(on ? "Bấm vào bất kỳ dòng chữ nào trên trang để sửa." : "Đã tắt chế độ sửa chữ trực tiếp.");
+  if(!quiet) status(on ? "Bấm vào bất kỳ dòng chữ nào trên trang để sửa." : "Đã tắt chế độ sửa chữ trực tiếp.");
 }
 document.addEventListener("input", e=>{
   if(!ED.live) return;
